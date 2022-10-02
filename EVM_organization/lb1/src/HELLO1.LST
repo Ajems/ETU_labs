@@ -1,0 +1,59 @@
+Microsoft (R) Macro Assembler Version 5.10                  9/22/22 11:05:52
+                                                             Page     1-1
+
+
+				DOSSEG
+				   .MODEL  SMALL
+				   .STACK  100h
+				   .DATA
+ 0000				Greeting  LABEL  BYTE
+ 0000  FFFF 000D 000A 0024	   DW 'Вас приветствует Коренев Д.А. из группы 
+				1303!',13,10,'$'
+HELLO1.ASM(6): error A2010: Syntax error
+				   .CODE
+ 0000  B8 ---- R		   mov  ax, @data
+ 0003  8E D8			   mov  ds, ax
+ 0005  BA 0000 R		   mov  dx, OFFSET Greeting
+ 0008				DisplayGreeting:
+ 0008  B4 09			   mov  ah, 9
+ 000A  CD 21			   int  21h
+ 000C  B4 4C			   mov  ah, 4ch
+ 000E  CD 21			   int  21h
+				   END
+Microsoft (R) Macro Assembler Version 5.10                  9/22/22 11:05:52
+                                                             Symbols-1
+
+
+Segments and Groups:
+
+                N a m e         	Length	 Align	Combine Class
+
+DGROUP . . . . . . . . . . . . .  	GROUP
+  _DATA  . . . . . . . . . . . .  	0008	WORD	PUBLIC	'DATA'
+  STACK  . . . . . . . . . . . .  	0100	PARA	STACK	'STACK'
+_TEXT  . . . . . . . . . . . . .  	0010	WORD	PUBLIC	'CODE'
+
+Symbols:            
+
+                N a m e         	Type	 Value	 Attr
+
+DISPLAYGREETING  . . . . . . . .  	L NEAR	0008	_TEXT
+
+GREETING . . . . . . . . . . . .  	L BYTE	0000	_DATA
+
+@CODE  . . . . . . . . . . . . .  	TEXT  _TEXT		
+@CODESIZE  . . . . . . . . . . .  	TEXT  0		
+@CPU . . . . . . . . . . . . . .  	TEXT  0101h		
+@DATASIZE  . . . . . . . . . . .  	TEXT  0		
+@FILENAME  . . . . . . . . . . .  	TEXT  HELLO1		
+@VERSION . . . . . . . . . . . .  	TEXT  510		
+
+
+     16 Source  Lines
+     16 Total   Lines
+     19 Symbols
+
+  47994 + 463361 Bytes symbol space free
+
+      0 Warning Errors
+      1 Severe  Errors

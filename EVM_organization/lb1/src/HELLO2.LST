@@ -1,0 +1,89 @@
+Microsoft (R) Macro Assembler Version 5.10                  9/22/22 11:13:03
+                                                             Page     1-1
+
+
+ = 0024				EOFLine  EQU  '$' 
+				
+				ASSUME CS:CODE, SS:AStack
+				
+ 0000				AStack    SEGMENT  STACK
+ 0000  000C[			          DW 12 DUP('!')
+	   0021			
+			 ]	
+				
+ 0018				AStack    ENDS
+				
+ 0000				DATA      SEGMENT
+				
+ 0000  48 65 6C 6C 6F 20	HELLO     DB 'Hello world!', 0AH, 0DH,EOFLine
+       77 6F 72 6C 64 21	
+       0A 0D 24			
+ 000F  53 74 75 64 65 6E	GREETING  DB 'Student from 1303 - Korenev Danil
+				 $'
+       74 20 66 72 6F 6D	
+       20 31 33 30 33 20	
+       2D 20 4B 6F 72 65	
+       6E 65 76 20 44 61	
+       6E 69 6C 20 24		
+ 0032				DATA      ENDS
+				
+ 0000				CODE      SEGMENT
+ 0000				WriteMsg  PROC  NEAR
+ 0000  B4 09			          mov   AH,9
+ 0002  CD 21			          int   21h
+ 0004  C3			          ret
+ 0005				WriteMsg  ENDP
+ 0005				Main      PROC  FAR
+ 0005  1E			          push  DS
+ 0006  2B C0			          sub   AX,AX
+ 0008  50			          push  AX
+ 0009  B8 ---- R		          mov   AX,DATA
+ 000C  8E D8			          mov   DS,AX
+ 000E  BA 0000 R		          mov   DX, OFFSET HELLO
+ 0011  E8 0000 R		          call  WriteMsg
+ 0014  BA 000F R		          mov   DX, OFFSET GREETING
+ 0017  E8 0000 R		          call  WriteMsg
+ 001A  CB			          ret
+						  
+ 001B				Main      ENDP
+ 001B				CODE      ENDS
+				          END Main
+Microsoft (R) Macro Assembler Version 5.10                  9/22/22 11:13:03
+                                                             Symbols-1
+
+
+Segments and Groups:
+
+                N a m e         	Length	 Align	Combine Class
+
+ASTACK . . . . . . . . . . . . .  	0018	PARA	STACK	
+CODE . . . . . . . . . . . . . .  	001B	PARA	NONE	
+DATA . . . . . . . . . . . . . .  	0032	PARA	NONE	
+
+Symbols:            
+
+                N a m e         	Type	 Value	 Attr
+
+EOFLINE  . . . . . . . . . . . .  	NUMBER	0024	
+
+GREETING . . . . . . . . . . . .  	L BYTE	000F	DATA
+
+HELLO  . . . . . . . . . . . . .  	L BYTE	0000	DATA
+
+MAIN . . . . . . . . . . . . . .  	F PROC	0005	CODE	Length = 0016
+
+WRITEMSG . . . . . . . . . . . .  	N PROC	0000	CODE	Length = 0005
+
+@CPU . . . . . . . . . . . . . .  	TEXT  0101h		
+@FILENAME  . . . . . . . . . . .  	TEXT  HELLO2		
+@VERSION . . . . . . . . . . . .  	TEXT  510		
+
+
+     35 Source  Lines
+     35 Total   Lines
+     13 Symbols
+
+  47984 + 461323 Bytes symbol space free
+
+      0 Warning Errors
+      0 Severe  Errors
