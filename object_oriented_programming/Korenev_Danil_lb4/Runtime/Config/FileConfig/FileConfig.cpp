@@ -9,14 +9,14 @@ FileConfig::FileConfig(std::string fileName){
         throw std::runtime_error("file open failure");
 
     std::string line;
-    std::string key;
-    std::string value;
     std::vector<std::string> list;
     while(getline(fileConfig, line)){
         std::istringstream stream(line);
+        std::string key = "\0";
+        std::string value = "\0";
         stream >> key;
         stream >> value;
-        if (value[0] == 'e') continue;
+        if (key == "\0" | value == "\0") continue;
         if (settings.find(value[0]) != settings.end()) continue;
         if (std::count(list.begin(), list.end(), key)) continue;
         if (converterDataToControl.find(key) == converterDataToControl.end()) continue;
