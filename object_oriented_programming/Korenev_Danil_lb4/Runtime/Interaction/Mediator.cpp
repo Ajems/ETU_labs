@@ -3,18 +3,12 @@
 
 Mediator::Mediator(){
     commandReader = new CommandReader();
+
     LogPool::getInstance()->setStream(commandReader->readLoggers());
     setLogLevels();
-
-    if (commandReader->getAnswerConfig()){
-        configFileName = commandReader->readConfigName();
-        fileConfig = new FileConfig(configFileName);
-    }
+    commandReader->setConfig();
 
     controller = new Controller(std::pair<int, int>({commandReader->getFieldWidth(), commandReader->getFieldHeight()}));
-
-    if(fileConfig != nullptr)
-        controller->setConfig(fileConfig);
 };
 
 
@@ -23,7 +17,7 @@ void Mediator::notify(MediatorObject* mediatorObject) {
         commandReader->notify(command);
     }
     else if (typeid(*mediatorObject) == typeid(*this->controller)){
-        mediatorObject->notify(command);
+        controller->notify(command);
     }
 };
 
@@ -31,7 +25,6 @@ void Mediator::start() {
     Message message = Message(Levels::StatusMessage, "Game start");
     LogPool::getInstance()->printLog(&message);
 
-    controller->printHelp();
     while (update());
 
     message = Message(Levels::StatusMessage, "End game");
@@ -52,7 +45,7 @@ void Mediator::setLogLevels() {
     std::vector<std::string> levelsInput = commandReader->readLevels();
     std::vector<Levels> levels;
     for(auto lvl : levelsInput){
-        levels.push_back(levelsConverte.at(lvl));
+        levels.push_back(levelsConverter.at(lvl));
     }
     LogPool::getInstance()->setLevels(levels);
 }
@@ -60,5 +53,4 @@ void Mediator::setLogLevels() {
 Mediator::~Mediator() {
     delete commandReader;
     delete controller;
-    delete fileConfig;
 }

@@ -3,7 +3,12 @@
 #include <algorithm>
 #include "FileConfig.h"
 
-FileConfig::FileConfig(std::string fileName){
+
+std::map<char, Control> FileConfig::getSettings() {
+    return settings;
+}
+
+void FileConfig::setConfig(std::string fileName) {
     fileConfig.open(fileName);
     if(!fileConfig.is_open())
         throw std::runtime_error("file open failure");
@@ -24,8 +29,4 @@ FileConfig::FileConfig(std::string fileName){
         list.push_back(key);
     }
     fileConfig.close();
-}
-
-std::map<char, Control> FileConfig::getSettings() {
-    return settings;
 }

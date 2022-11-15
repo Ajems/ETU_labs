@@ -8,7 +8,15 @@
 
 class Configuration {
 public:
-    virtual std::map<char, Control> getSettings() = 0;
+    virtual ~Configuration() = default;
+    std::map<std::string, Control> converterDataToControl = {
+            {"EXIT", Control::EXIT},
+            {"UP", Control::UP},
+            {"DOWN", Control::DOWN},
+            {"LEFT", Control::LEFT},
+            {"RIGHT", Control::RIGHT},
+            {"HELP", Control::HELP}
+    };
 };
 
 

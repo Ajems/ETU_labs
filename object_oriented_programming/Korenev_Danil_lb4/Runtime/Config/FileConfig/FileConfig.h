@@ -10,18 +10,12 @@
 class FileConfig: public Configuration{
 private:
     std::fstream fileConfig;
-    std::map<char, Control> settings{};
-    std::map<std::string, Control> converterDataToControl = {
-            {"EXIT", Control::EXIT},
-            {"UP", Control::UP},
-            {"DOWN", Control::DOWN},
-            {"LEFT", Control::LEFT},
-            {"RIGHT", Control::RIGHT},
-            {"HELP", Control::HELP},
-    };
+    std::map <char, Control> settings;
 public:
-    explicit FileConfig(std::string filename);
-    std::map<char, Control> getSettings() override;
+    FileConfig() = default;
+    ~FileConfig() override = default;
+    std::map<char, Control> getSettings();
+    void setConfig(std::string);
 };
 
 

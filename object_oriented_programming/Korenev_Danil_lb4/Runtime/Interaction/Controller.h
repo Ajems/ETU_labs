@@ -10,23 +10,9 @@
 #include "../Config/Configuration.h"
 
 class Controller: public MediatorObject{
-public:
-    Controller(std::pair<int, int> = std::pair<int, int>{10, 10});
-    void notify(char&) final;
-    bool isEndGame();
-    void printHelp();
-    void setConfig(Configuration*);
 private:
     Model model;
     FieldView fieldView;
-    std::map<char, Control> settings = {
-            {'e', Control::EXIT},
-            {'w', Control::UP},
-            {'s', Control::DOWN},
-            {'a', Control::LEFT},
-            {'d', Control::RIGHT},
-            {'h', Control::HELP},
-    };
 
     std::map<Control, std::string> converterControlToString = {
             {Control::EXIT, "EXIT"},
@@ -36,6 +22,10 @@ private:
             {Control::RIGHT, "RIGHT"},
             {Control::HELP, "HELP"},
     };
+public:
+    Controller(std::pair<int, int> = std::pair<int, int>{10, 10});
+    void notify(Control&) final;
+    bool isEndGame();
 };
 
 

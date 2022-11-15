@@ -2,9 +2,11 @@
 #define LAB2_MEDIATOROBJECT_H
 
 
+#include "../Config/Control.h"
+
 class MediatorObject {
 public:
-    virtual void notify(char&) = 0;
+    virtual void notify(Control&) = 0;
 };
 
 

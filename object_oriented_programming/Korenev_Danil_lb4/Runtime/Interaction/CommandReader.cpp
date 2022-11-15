@@ -1,33 +1,29 @@
-#include <iostream>
 #include <algorithm>
 #include <utility>
 #include "CommandReader.h"
 #include "../Log/Message/Message.h"
 #include "../Log/LogPool/LogPool.h"
-#include "Input/InputKeyboard/InputKeyboard.h"
+#include "Input/InputKeyboard/InteractionConsole.h"
 
 #define MINSIZE 10
 
 unsigned int CommandReader::getFieldWidth() const{
-    std::cout << "Enter filed width (minimum 10)\n";
-    std::cout << "Width: ";
-    std::string inputData;
+    interactionUser->showMessage("Enter filed width (minimum 10)\nWidth: ");
 
-    inputReader->getValue(inputData);
+    std::string inputData;
+    interactionUser->getValue(inputData);
+
     return checkUIData(inputData);
 }
 
 
 unsigned int CommandReader::getFieldHeight() const{
-    std::cout << "Enter filed Height (minimum 10)\n";
-    std::cout << "Height: ";
-    std::string inputData;
-    inputReader->getValue(inputData);
-    return checkUIData(inputData);
-}
+    interactionUser->showMessage("Enter filed height (minimum 10)\nheight: ");
 
-void CommandReader::getPlayerMove(char& command) const {
-    inputReader->getCommand(command);
+    std::string inputData;
+    interactionUser->getValue(inputData);
+
+    return checkUIData(inputData);
 }
 
 unsigned int CommandReader::checkUIData(const std::string& input) const{
@@ -51,12 +47,15 @@ bool CommandReader::isNumber(const std::string &s) const{
     return !s.empty() && it == s.end();
 }
 
-void CommandReader::notify(char& command) {
-    getPlayerMove(command);
+void CommandReader::notify(Control& command) {
+    interactionUser->getCommand(command);
+    if (command == Control::HELP){
+        interactionUser->showMessage("Собирайте монеты для победы");
+    }
 }
 
 std::vector<std::string> CommandReader::readLevels() {
-    std::cout << "What max levels must log? (error, status, game)\n";
+    interactionUser->showMessage("What max levels must log? (error, status, game)");
     std::vector<std::string> levels;
     if(!getAnswerLevel("error"))
         return levels;
@@ -74,7 +73,7 @@ std::vector<std::string> CommandReader::readLevels() {
 }
 
 bool CommandReader::getAnswerLevel(std::string level) {
-    return inputReader->getAnswerLevel(std::move(level));
+    return interactionUser->getAnswerLevel(std::move(level));
 }
 
 std::vector<std::string> CommandReader::readLoggers() {
@@ -86,21 +85,17 @@ std::vector<std::string> CommandReader::readLoggers() {
 }
 
 bool CommandReader::getAnswerLogger(std::string level) {
-    return inputReader->getAnswerLogger(std::move(level));
-}
-
-std::string CommandReader::readConfigName() {
-    return inputReader->readConfigName();
-}
-
-bool CommandReader::getAnswerConfig() {
-    return inputReader->getAnswerConfig();
+    return interactionUser->getAnswerLogger(std::move(level));
 }
 
 CommandReader::CommandReader() {
-    inputReader = new InputKeyboard;
+    interactionUser = new InteractionConsole;
 }
 
 CommandReader::~CommandReader() {
-    delete inputReader;
+    delete interactionUser;
+}
+
+void CommandReader::setConfig() {
+    interactionUser->setConfig();
 }

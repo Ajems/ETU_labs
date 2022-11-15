@@ -15,14 +15,13 @@ public:
     ~Mediator();
     void start();
 private:
-    char command = ' ';
+    Control command;
     CommandReader* commandReader = nullptr;
     Controller* controller = nullptr;
-    FileConfig* fileConfig = nullptr;
     void setLogLevels();
     void notify(MediatorObject*);
     bool update();
-    std::map<std::string, Levels> levelsConverte{
+    std::map<std::string, Levels> levelsConverter{
             {"game", Levels::GameMessage},
             {"status", Levels::StatusMessage},
             {"error", Levels::ErrorMessage}

@@ -129,32 +129,17 @@ std::pair<int, int> Field::getFieldSize() const{
 };
 
 
-void Field::movePlayer(Player::STEP step) {
+void Field::movePlayer(Control step) {
 
-    auto newPosition = playerPosition;
-    switch (step) {
-        case Player::UP:
-            ++newPosition.second;
-            break;
-        case Player::DOWN:
-            --newPosition.second;
-            break;
-        case Player::LEFT:
-            --newPosition.first;
-            break;
-        case Player::RIGHT:
-            ++newPosition.first;
-            break;
-        default:
-            break;
-    }
+    newPosition = playerPosition;
+    if (reaction.find(step) == reaction.end()) return;
+    reaction.at(static_cast<const Control>(step))();
 
     newPosition.first%=int(fieldSize.first);
     if(newPosition.first < 0) newPosition.first += int(fieldSize.first);
 
     newPosition.second%=int(fieldSize.second);
     if(newPosition.second < 0) newPosition.second += int(fieldSize.second);
-
 
     setPlayerPosition(newPosition);
 }

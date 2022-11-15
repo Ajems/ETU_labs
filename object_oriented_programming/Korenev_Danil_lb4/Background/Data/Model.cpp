@@ -13,16 +13,10 @@ Field* Model::getField() {
     return &field;
 }
 
-void Model::movePlayerPosition(Control c) {
-    if (move.find(c) != move.end()){
-        field.movePlayer(move.at(c));
-        callEvent(field.getPlayerPosition());
-        this->notify();
-    }
-}
-
-std::pair<int, int> Model::getPlayerPosition() const {
-    return field.getPlayerPosition();
+void Model::movePlayerPosition(Control command) {
+    field.movePlayer(command);
+    callEvent(field.getPlayerPosition());
+    this->notify();
 }
 
 bool Model::isEndGame(){
