@@ -30,6 +30,8 @@ public:
     bool isEndGame();
     void setEndGame();
     void callEvent(std::pair<int, int>);
+    void saveGame();
+    void restoreGame();
 };
 
 

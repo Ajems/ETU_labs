@@ -4,6 +4,7 @@
 
 #include <map>
 #include <vector>
+#include "functional"
 #include "../GameObject.h"
 #include "../Save/Originator/Originator.h"
 
@@ -12,12 +13,21 @@ private:
     std::string createSaveState();
     void restoreData(const std::string &str);
     std::vector<std::string> parameters = {"health", "xp", "shield", "coins"};
-    std::map<std::string, int> getValue{
-            {"health", health},
-            {"xp", xp},
-            {"shield", shield},
-            {"coins", coins}
+    std::map<std::string, std::function<int()>> getValue{
+            {"health", [this](){return this->health;}},
+            {"xp", [this](){return this->xp;}},
+            {"shield", [this](){return this->shield;}},
+            {"coins", [this](){return this->coins;}}
     };
+
+    /*
+    template<typename T, typename ... Params>
+    size_t hash(T offset, T start, Params ... params){
+        size_t hashData = std::hash<size_t>()(start);
+        return (hashData << offset) ^ (hash(offset-1, params...));
+    }
+     */
+    size_t hash(int, int, int, int);
 public:
 
     Player(int health = 100,

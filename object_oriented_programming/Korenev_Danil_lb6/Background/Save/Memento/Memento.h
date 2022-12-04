@@ -3,7 +3,6 @@
 
 //хранитель состояния Origantor'а
 #include <string>
-#include "../Originator/Originator.h"
 
 
 class Memento {

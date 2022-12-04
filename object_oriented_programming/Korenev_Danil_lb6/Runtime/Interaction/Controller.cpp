@@ -8,8 +8,13 @@ Controller::Controller(std::string level): fieldView(FieldView(&model)), model(M
 };
 
 void Controller::notify(Control& command) {
-    if (command == Control::EXIT) model.setEndGame();
-    else model.movePlayerPosition(command);
+    if (interaction.find(command) == interaction.end()){
+        std::cout << "COMMAND MOVE PLAYER\n";
+        model.movePlayerPosition(command);
+    } else {
+        std::cout << "COMMAND EXIT SAVE RESTORE\n";
+        interaction.at(command)();
+    }
 }
 
 bool Controller::isEndGame(){

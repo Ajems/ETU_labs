@@ -1,5 +1,6 @@
 #include <sstream>
 #include <algorithm>
+#include <iostream>
 #include "Player.h"
 #include "../../Runtime/Log/Message/Message.h"
 #include "../../Runtime/Log/LogPool/LogPool.h"
@@ -107,31 +108,46 @@ void Player::restoreState(Memento playerMemento) {
 }
 
 std::string Player::createSaveState() {
-    //TODO std::playerParameters сделать хэш на игрока
     std::string playerParameters;
     for (const auto& parameter: parameters){
-        playerParameters+=std::to_string(getValue.at(parameter));
+        playerParameters+=std::to_string(getValue.at(parameter)());
         playerParameters+="\n";
     }
-    //std::string playerHashParameters = std::hash;
-    //playerParameters+=playerHashParameters;
+    playerParameters += std::to_string(hash(health, xp, shield, coins));
     return playerParameters;
 }
 
 void Player::restoreData(const std::string& str) {
     auto ss = std::stringstream{str};
-    std::string playerHash;
-    std::string parameterName;
-    int cnt = -1;
+    std::vector<int> data;
+    std::string hashFromFile;
+    int cnt = 0;
     for (std::string line; std::getline(ss, line, '\n');){
-        if (cnt == -1) {
-            playerHash = line;
-        } else {
-            getValue.at(parameters[0]) = std::stoi(line);
+        if (cnt == 4){
+            hashFromFile = line;
+            break;
         }
+        data.push_back(std::stoi(line));
         ++cnt;
     }
-    //TODO сравнить хэш и игрока с полученными данными
+    size_t playerHash = hash(data[0], data[1], data[2], data[3]);
+    if (std::to_string(playerHash) != hashFromFile){
+        std::cout << "Пидарас и читер, мать ебал\n";
+    } else {
+        health = data[0];
+        shield = data[1];
+        xp = data[2];
+        coins = data[3];
+    }
+}
+
+
+size_t Player::hash(int health, int shield, int xp, int coins) {
+    size_t hashHealth = std::max(std::hash<int>()(health), size_t(1));
+    size_t hashShield = std::max(std::hash<int>()(shield), size_t(1));
+    size_t hashXp = std::max(std::hash<int>()(xp), size_t(1));
+    size_t hashCoins = std::max(std::hash<int>()(coins), size_t(1));
+    return hashHealth ^ ( (hashShield << 1) ^ ( (hashXp << 2) ^ (hashCoins << 3)));
 }
 
 

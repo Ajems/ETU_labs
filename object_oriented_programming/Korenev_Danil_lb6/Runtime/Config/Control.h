@@ -8,6 +8,8 @@ enum Control{
     LEFT, // 3
     RIGHT, // 4
     HELP, // 5
+    SAVE,
+    RESTORE,
     NOTHING
 };
 

@@ -2,7 +2,6 @@
 #define LAB2_ORIGINATOR_H
 
 #include "../Memento/Memento.h"
-#include "../../GameObject.h"
 
 //создает объект хранителя для сохранения своего состояния
 class Originator {

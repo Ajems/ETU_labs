@@ -36,3 +36,12 @@ void Model::createField(const std::string& lvl) {
 Model::~Model() {
     delete context.getField();
 }
+
+void Model::saveGame() {
+    player.saveState();
+}
+
+void Model::restoreGame() {
+    Memento mementoSavedState;
+    player.restoreState(mementoSavedState);
+}

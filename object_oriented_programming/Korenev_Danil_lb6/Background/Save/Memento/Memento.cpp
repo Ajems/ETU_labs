@@ -1,12 +1,16 @@
 #include "Memento.h"
 #include <fstream>
+#include <iostream>
 
 void Memento::saveState(std::string state) {
-    std::fstream fileSave ("save.txt");
+    std::fstream fileSave;
+    fileSave.open("save.txt", std::ios::out);
     if (!fileSave.is_open())
         throw std::runtime_error("File save open fail");
+
     fileSave << state;
     fileSave.close();
+    std::cout << "FILE SAVE SAVE\n";
 }
 
 std::string Memento::restoreState() {

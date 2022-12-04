@@ -14,6 +14,8 @@ private:
             {'a', Control::LEFT},
             {'d', Control::RIGHT},
             {'h', Control::HELP},
+            {'l', Control::SAVE},
+            {'r', Control::RESTORE}
     };
 public:
     void getCommand(Control&);
