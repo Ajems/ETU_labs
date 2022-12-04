@@ -9,8 +9,8 @@
 
 class Player: public GameObject, public Originator{
 private:
-    std::string createHash();
-    void restoreHash(const std::string&);
+    std::string createSaveState();
+    void restoreData(const std::string &str);
     std::vector<std::string> parameters = {"health", "xp", "shield", "coins"};
     std::map<std::string, int> getValue{
             {"health", health},

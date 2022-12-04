@@ -96,41 +96,42 @@ void Player::roundValue(int& value){
 
 Memento Player::saveState() {
     Memento playerMemento;
-    std::string playerStateHash = createHash();
-    playerMemento.saveState(playerStateHash);
+    std::string playerState = createSaveState();
+    playerMemento.saveState(playerState);
     return playerMemento;
 }
 
 void Player::restoreState(Memento playerMemento) {
     std::string playerStateHash = playerMemento.restoreState();
-    restoreHash(playerStateHash);
+    restoreData(playerStateHash);
 }
 
-std::string Player::createHash() {
+std::string Player::createSaveState() {
     //TODO std::playerParameters сделать хэш на игрока
     std::string playerParameters;
     for (const auto& parameter: parameters){
-        playerParameters+=parameter;
-        playerParameters+="$";
         playerParameters+=std::to_string(getValue.at(parameter));
         playerParameters+="\n";
     }
+    //std::string playerHashParameters = std::hash;
+    //playerParameters+=playerHashParameters;
     return playerParameters;
 }
 
-void Player::restoreHash(const std::string& str) {
+void Player::restoreData(const std::string& str) {
     auto ss = std::stringstream{str};
+    std::string playerHash;
+    std::string parameterName;
+    int cnt = -1;
     for (std::string line; std::getline(ss, line, '\n');){
-        auto delim = std::stringstream {line};
-        std::string parameter;
-        for (std::string name; std::getline(delim, name, '\n');){
-            if (std::find(parameters.begin(), parameters.end(), name) != parameters.end()){
-                parameter = name;
-            } else {
-                getValue.at(parameter) = std::stoi(name);
-            }
+        if (cnt == -1) {
+            playerHash = line;
+        } else {
+            getValue.at(parameters[0]) = std::stoi(line);
         }
+        ++cnt;
     }
+    //TODO сравнить хэш и игрока с полученными данными
 }
 
 
