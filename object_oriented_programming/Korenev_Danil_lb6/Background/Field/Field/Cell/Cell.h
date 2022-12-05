@@ -16,6 +16,7 @@ public:
     Event* getEvent();
     void callEvent(GameObject*);
     virtual ~Cell() = default;
+    virtual size_t hash();
 protected:
     Event* event = nullptr;
     bool passable = false;

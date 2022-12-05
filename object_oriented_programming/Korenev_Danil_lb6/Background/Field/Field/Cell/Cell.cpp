@@ -37,3 +37,7 @@ void Cell::callEvent(GameObject* obj){
         event->callReaction(obj);
         event = nullptr;
 }
+
+size_t Cell::hash() {
+    return std::max(std::hash<size_t>()(typeid(this).hash_code()), size_t(1));
+}

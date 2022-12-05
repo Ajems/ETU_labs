@@ -13,8 +13,17 @@
 #include "../../GameObject.h"
 #include "../../../Runtime/Config/Control.h"
 
+#include "Event/EventPlayer/EventPlayerAddCoin.h"
+#include "Event/EventPlayer/EventPlayerAddHealth.h"
+#include "Event/EventPlayer/EventPlayerAddShield.h"
+#include "Event/EventPlayer/EventPlayerOpenChest.h"
+#include "Event/EventPlayer/EventPlayerTakeDamage.h"
+#include "Event/EventField/EventFieldCrashWall.h"
+#include "Event/EventField/EventFieldPlayerTeleport.h"
+#include "Event/EventField/EventFieldSpawnCoins.h"
 
-class Field: public GameObject{
+
+class Field: public GameObject, public Originator{
 private:
     std::pair<int, int> fieldSize = {-1, -1};
     std::pair<int, int> playerPosition = {-1, -1};
@@ -30,6 +39,28 @@ private:
             {Control::LEFT, [this](){--newPosition.first;}},
             {Control::NOTHING, [](){}}
     };
+    std::map<int, std::string> cellToName = {
+            {typeid(CellWall).hash_code(), "Wall"},
+            {typeid(CellGrass).hash_code(), "Grass"},
+            {typeid(CellPlayer).hash_code(), "Player"}
+    };
+
+    /*
+    std::map<size_t, std::string> eventToName = {
+            {typeid(EventPlayerAddCoin).hash_code(), "PlayerAddCoin"},
+            {typeid(EventPlayerAddHealth).hash_code(), "PlayerAddHealth"},
+            {typeid(EventPlayerAddShield).hash_code(), "PlayerAddShield"},
+            {typeid(EventPlayerOpenChest).hash_code(), "PlayerOpenChest"},
+            {typeid(EventPlayerTakeDamage).hash_code(), "PlayerTakeDamage"},
+            {typeid(EventFieldCrashWall).hash_code(), "FieldCrashWall"},
+            {typeid(EventFieldPlayerTeleport).hash_code(), "FieldPlayerTeleport"},
+            {typeid(EventFieldSpawnCoins).hash_code(), "FieldSpawnCoins"}
+    };
+     */
+
+    size_t hash(std::pair<int, int>, std::pair<int, int>, std::pair<int, int>, int, std::vector<std::vector<Cell>>);
+    std::string createSaveState();
+    void restoreData(const std::string &str);
 public:
     std::vector<std::vector<Cell>> field;
 
@@ -68,6 +99,9 @@ public:
     void setFinishPosition(std::pair<int, int>);
 
     bool isPlayerSpawned();
+
+    Memento saveState() override;
+    void restoreState(Memento) override;
 };
 
 

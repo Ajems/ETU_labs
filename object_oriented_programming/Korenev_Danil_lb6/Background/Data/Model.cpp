@@ -39,6 +39,7 @@ Model::~Model() {
 
 void Model::saveGame() {
     player.saveState();
+    field->saveState();
 }
 
 void Model::restoreGame() {

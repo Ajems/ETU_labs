@@ -8,6 +8,7 @@ class CellWall: public Cell{
 public:
     ~CellWall() = default;
     CellWall();
+    size_t hash() override;
 };
 
 

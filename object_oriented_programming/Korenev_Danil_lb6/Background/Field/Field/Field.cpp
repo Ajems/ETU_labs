@@ -5,6 +5,7 @@
 #include "Event/EventField/EventFieldCrashWall.h"
 #include "../../../Runtime/Log/Levels.h"
 #include "../../../Runtime/Log/LogPool/LogPool.h"
+#define SAVEFILE "field_save.txt"
 
 
 
@@ -199,6 +200,56 @@ Event* Field::getEvent(std::pair<int, int> position) {
     } else {
         throw std::invalid_argument("Incorrect get event position");
     }
+}
+
+Memento Field::saveState() {
+    Memento fieldMemento;
+    std::string playerState = createSaveState();
+    fieldMemento.saveState(playerState, SAVEFILE);
+    return fieldMemento;
+}
+
+void Field::restoreState(Memento fieldMemento) {
+    std::string playerStateHash = fieldMemento.restoreState(SAVEFILE);
+    restoreData(playerStateHash);
+}
+
+//TODO хэш клетки берется от абстрактного класса клетки а не от конкретной
+//TODO какие-то траблы с получением хэша ивента
+std::string Field::createSaveState() {
+    std::string fieldParameters = std::to_string(hash(fieldSize, playerPosition, finishPosition, totalCoins, field));
+    fieldParameters += "\n" + std::to_string(fieldSize.first) + "\n" + std::to_string(fieldSize.second);
+    fieldParameters += "\n" + std::to_string(playerPosition.first) + "\n" + std::to_string(playerPosition.second);
+    fieldParameters += "\n" + std::to_string(finishPosition.first) + "\n" + std::to_string(finishPosition.second);
+    fieldParameters += "\n" + std::to_string(totalCoins);
+    for (int h = 0; h < fieldSize.second; ++h){
+        for (int w = 0; w < fieldSize.first; ++w){
+            fieldParameters+="\n" + std::to_string(field.at(h).at(w).hash()); //Cell
+            //fieldParameters+="\n" + std::to_string(typeid((*field.at(h).at(w).getEvent())).hash_code()); //Event
+        }
+    }
+    return fieldParameters;
+}
+
+void Field::restoreData(const std::string &str) {
+    // преобразовать str в данные
+}
+
+size_t Field::hash(std::pair<int, int> size, std::pair<int, int> playerPosition, std::pair<int, int> finishPosition, int coins, std::vector<std::vector<Cell>>) {
+    size_t hashSize = std::max(std::hash<int>()(size.first), size_t(1)) ^ (std::max(std::hash<int>()(size.second << 1), size_t(1)));
+    size_t hashPlayerPosition = std::max(std::hash<int>()(playerPosition.first), size_t(1)) ^ (std::max(std::hash<int>()(playerPosition.second << 1), size_t(1)));
+    size_t hashFinishPosition = std::max(std::hash<int>()(finishPosition.first), size_t(1)) ^ (std::max(std::hash<int>()(finishPosition.second << 1), size_t(1)));
+    size_t hashCoins = std::max(std::hash<int>()(coins), size_t(1));
+
+    auto hashField = size_t(0);
+    for (int h = 0; h < size.second; ++h){
+        for (int w = 0; w < size.first; ++w){
+            hashField+= field.at(h).at(w).hash() << w;
+            //hashField+=std::max(std::hash<size_t>()(typeid((*field.at(h).at(w).getEvent())).hash_code()), size_t(1)) << h;
+        }
+    }
+
+    return hashField ^ ( (hashCoins << 1) ^ ( (hashFinishPosition << 2) ^ ( (hashPlayerPosition << 3) ^ (hashSize << 4))));
 }
 
 

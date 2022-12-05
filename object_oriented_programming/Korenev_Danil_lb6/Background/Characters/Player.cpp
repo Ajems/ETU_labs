@@ -6,6 +6,7 @@
 #include "../../Runtime/Log/LogPool/LogPool.h"
 
 #define MAXVALUE 100
+#define SAVEFILE "player_save.txt"
 
 Player::Player(int health,
                int shield,
@@ -98,12 +99,12 @@ void Player::roundValue(int& value){
 Memento Player::saveState() {
     Memento playerMemento;
     std::string playerState = createSaveState();
-    playerMemento.saveState(playerState);
+    playerMemento.saveState(playerState, SAVEFILE);
     return playerMemento;
 }
 
 void Player::restoreState(Memento playerMemento) {
-    std::string playerStateHash = playerMemento.restoreState();
+    std::string playerStateHash = playerMemento.restoreState(SAVEFILE);
     restoreData(playerStateHash);
 }
 

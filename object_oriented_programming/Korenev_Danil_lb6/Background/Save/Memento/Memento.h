@@ -7,7 +7,7 @@
 
 class Memento {
 public:
-    void saveState(std::string); // сохранить (в т.ч. файл) снимок (мб особым образом) в state
-    std::string restoreState(); // получить состояние (из файла) вернуть
+    void saveState(std::string, std::string);
+    std::string restoreState(std::string);
 };
 #endif
