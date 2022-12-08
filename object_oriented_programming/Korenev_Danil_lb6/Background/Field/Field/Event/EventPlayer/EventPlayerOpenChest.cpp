@@ -1,7 +1,7 @@
 #include <random>
 #include "EventPlayerOpenChest.h"
 
-EventPlayerOpenChest::EventPlayerOpenChest(){
+EventPlayerOpenChest::EventPlayerOpenChest(size_t hash): hashCode(hash){
     std::random_device dev;
     std::mt19937 rng(dev());
     std::uniform_int_distribution dist(1, 50);
@@ -13,4 +13,8 @@ void EventPlayerOpenChest::changePlayer(Player* player) {
         player->addHealth(value);
         player->downCoins(value);
     }
+}
+
+size_t EventPlayerOpenChest::hash() {
+    return hashCode;
 }

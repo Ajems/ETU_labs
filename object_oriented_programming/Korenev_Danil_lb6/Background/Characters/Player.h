@@ -19,14 +19,6 @@ private:
             {"shield", [this](){return this->shield;}},
             {"coins", [this](){return this->coins;}}
     };
-
-    /*
-    template<typename T, typename ... Params>
-    size_t hash(T offset, T start, Params ... params){
-        size_t hashData = std::hash<size_t>()(start);
-        return (hashData << offset) ^ (hash(offset-1, params...));
-    }
-     */
     size_t hash(int, int, int, int);
 public:
 

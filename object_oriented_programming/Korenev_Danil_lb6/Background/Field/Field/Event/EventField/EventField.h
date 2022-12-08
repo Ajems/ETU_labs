@@ -6,6 +6,7 @@ class Field;
 #include "../Event.h"
 
 class EventField: public Event {
+public:
     void callReaction(GameObject*) override;
     virtual void changeField(Field*) = 0;
 };

@@ -1,11 +1,17 @@
 #include <utility>
 #include <iostream>
+#include <sstream>
 #include "Field.h"
 #include "Event/EventPlayer/EventPlayerAddCoin.h"
 #include "Event/EventField/EventFieldCrashWall.h"
 #include "../../../Runtime/Log/Levels.h"
 #include "../../../Runtime/Log/LogPool/LogPool.h"
 #define SAVEFILE "field_save.txt"
+#define TOTALFIELDINTPARAMS 7
+#define INDEXSIZE 0
+#define INDEXPLAYERPOSITION 2
+#define INDEXFINISHPOSITION 4
+#define INDEXTOTALCOINS 6
 
 
 
@@ -92,6 +98,7 @@ void Field::changePlayerPosition(std::pair<int, int> newPosition) {
     try{
         if (getCell(newPosition).isPassable()){
             getCell(playerPosition).setUnstepped();
+            std::cout << "Old position " << playerPosition.first << '\t' << playerPosition.second << '\n';
             getCell(newPosition).setStepped();
             playerPosition = newPosition;
             Message message = Message(Levels::GameMessage, "Player moved to (" + std::to_string(playerPosition.first) + ", " + std::to_string(playerPosition.second) + ')');
@@ -214,8 +221,6 @@ void Field::restoreState(Memento fieldMemento) {
     restoreData(playerStateHash);
 }
 
-//TODO хэш клетки берется от абстрактного класса клетки а не от конкретной
-//TODO какие-то траблы с получением хэша ивента
 std::string Field::createSaveState() {
     std::string fieldParameters = std::to_string(hash(fieldSize, playerPosition, finishPosition, totalCoins, field));
     fieldParameters += "\n" + std::to_string(fieldSize.first) + "\n" + std::to_string(fieldSize.second);
@@ -224,18 +229,76 @@ std::string Field::createSaveState() {
     fieldParameters += "\n" + std::to_string(totalCoins);
     for (int h = 0; h < fieldSize.second; ++h){
         for (int w = 0; w < fieldSize.first; ++w){
-            fieldParameters+="\n" + std::to_string(field.at(h).at(w).hash()); //Cell
-            //fieldParameters+="\n" + std::to_string(typeid((*field.at(h).at(w).getEvent())).hash_code()); //Event
+            fieldParameters+="\n" + cellToName.at(field.at(h).at(w).hash());
+            if (field.at(h).at(w).getEvent() == nullptr) fieldParameters+="\nNone";
+            else fieldParameters += "\n" + eventToName.at(field.at(h).at(w).getEvent()->hash());
         }
     }
     return fieldParameters;
 }
 
 void Field::restoreData(const std::string &str) {
-    // преобразовать str в данные
+    auto ss = std::stringstream{str};
+    std::vector<int> data;
+    std::string hashFromFile;
+    bool isReadHash = true;
+    int cntLine = 0;
+    bool isCellType = true;
+    int width = 0;
+    int height = 0;
+    std::vector<std::vector<Cell>> tmpField;
+    for (std::string line; std::getline(ss, line, '\n');){
+        if (isReadHash){
+            hashFromFile = line;
+            isReadHash = false;
+        } else {
+            if (cntLine < TOTALFIELDINTPARAMS) data.push_back(std::stoi(line));
+            else{
+                if (isCellType){
+                    if (width == 0) tmpField.emplace_back();
+                    tmpField.at(height).emplace_back();
+                    tmpField.at(height).at(width) = cellFactory.getCell(line);
+                } else {
+                    if (line != "None"){
+                        auto tmpEvent = getEventFromFile.at(line)();
+                        tmpField.at(height).at(width).setEvent(tmpEvent);
+                    }
+                    ++width;
+                }
+                height+=width/data[INDEXSIZE];
+                width%=data[INDEXSIZE];
+                isCellType = !isCellType;
+            }
+            ++cntLine;
+        }
+    }
+    size_t fieldHash = hash(std::pair<int, int>(data[INDEXSIZE], data[INDEXSIZE+1]),
+                            std::pair<int, int>(data[INDEXPLAYERPOSITION], data[INDEXPLAYERPOSITION+1]),
+                            std::pair<int, int>(data[INDEXFINISHPOSITION], data[INDEXFINISHPOSITION+1]),
+                            data[INDEXTOTALCOINS],
+                            tmpField);
+
+    if (std::to_string(fieldHash) != hashFromFile){
+        std::cout << "Изменен файл поля\n"; // заменить на throw
+    } else {
+        for (int h = 0; h < fieldSize.second; ++h){
+            for (int w = 0; w < fieldSize.first; ++w){
+                delete field.at(h).at(w).getEvent();
+            }
+        }
+        field.clear();
+
+        field = tmpField;
+        fieldSize = std::pair<int, int>(data[INDEXSIZE], data[INDEXSIZE+1]);
+        finishPosition = std::pair<int, int>(data[INDEXFINISHPOSITION], data[INDEXFINISHPOSITION+1]);
+        totalCoins = data[INDEXTOTALCOINS];
+        //changePlayerPosition(std::pair<int, int>(data[INDEXPLAYERPOSITION], data[INDEXPLAYERPOSITION+1]));
+    }
 }
 
-size_t Field::hash(std::pair<int, int> size, std::pair<int, int> playerPosition, std::pair<int, int> finishPosition, int coins, std::vector<std::vector<Cell>>) {
+
+
+size_t Field::hash(std::pair<int, int> size, std::pair<int, int> playerPosition, std::pair<int, int> finishPosition, int coins, std::vector<std::vector<Cell>> field) {
     size_t hashSize = std::max(std::hash<int>()(size.first), size_t(1)) ^ (std::max(std::hash<int>()(size.second << 1), size_t(1)));
     size_t hashPlayerPosition = std::max(std::hash<int>()(playerPosition.first), size_t(1)) ^ (std::max(std::hash<int>()(playerPosition.second << 1), size_t(1)));
     size_t hashFinishPosition = std::max(std::hash<int>()(finishPosition.first), size_t(1)) ^ (std::max(std::hash<int>()(finishPosition.second << 1), size_t(1)));
@@ -245,7 +308,8 @@ size_t Field::hash(std::pair<int, int> size, std::pair<int, int> playerPosition,
     for (int h = 0; h < size.second; ++h){
         for (int w = 0; w < size.first; ++w){
             hashField+= field.at(h).at(w).hash() << w;
-            //hashField+=std::max(std::hash<size_t>()(typeid((*field.at(h).at(w).getEvent())).hash_code()), size_t(1)) << h;
+            if (field.at(h).at(w).getEvent() != nullptr)
+                hashField+= field.at(h).at(w).getEvent()->hash() << h;
         }
     }
 

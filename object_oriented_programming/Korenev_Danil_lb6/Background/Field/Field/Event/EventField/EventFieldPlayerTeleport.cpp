@@ -1,6 +1,7 @@
 #include "EventFieldPlayerTeleport.h"
 #include "../../../../../Runtime/Log/Message/Message.h"
 #include "../../../../../Runtime/Log/LogPool/LogPool.h"
+#include "../../Field.h"
 
 void EventFieldPlayerTeleport::changeField(Field *field) {
     std::pair<int, int> tmpPosition(width, height);
@@ -15,4 +16,9 @@ void EventFieldPlayerTeleport::changeField(Field *field) {
     }
 }
 
-EventFieldPlayerTeleport::EventFieldPlayerTeleport(int width, int height): width(width), height(height){};
+EventFieldPlayerTeleport::EventFieldPlayerTeleport(int width, int height, size_t value):
+width(width), height(height), hashCode(value) {}
+
+size_t EventFieldPlayerTeleport::hash() {
+    return hashCode;
+}

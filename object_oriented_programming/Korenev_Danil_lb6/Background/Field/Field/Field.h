@@ -39,13 +39,13 @@ private:
             {Control::LEFT, [this](){--newPosition.first;}},
             {Control::NOTHING, [](){}}
     };
-    std::map<int, std::string> cellToName = {
+    std::map<size_t, std::string> cellToName = {
             {typeid(CellWall).hash_code(), "Wall"},
             {typeid(CellGrass).hash_code(), "Grass"},
             {typeid(CellPlayer).hash_code(), "Player"}
     };
 
-    /*
+
     std::map<size_t, std::string> eventToName = {
             {typeid(EventPlayerAddCoin).hash_code(), "PlayerAddCoin"},
             {typeid(EventPlayerAddHealth).hash_code(), "PlayerAddHealth"},
@@ -56,7 +56,16 @@ private:
             {typeid(EventFieldPlayerTeleport).hash_code(), "FieldPlayerTeleport"},
             {typeid(EventFieldSpawnCoins).hash_code(), "FieldSpawnCoins"}
     };
-     */
+
+    std::map<std::string, std::function<Event*()>> getEventFromFile = {
+            {"PlayerAddCoin", [](){return new EventPlayerAddCoin(typeid(EventPlayerAddCoin).hash_code());}},
+            {"PlayerAddHealth", [](){return new EventPlayerAddHealth(typeid(EventPlayerAddHealth).hash_code());}},
+            {"PlayerAddShield", [](){return new EventPlayerAddShield(typeid(EventPlayerAddShield).hash_code());}},
+            {"PlayerOpenChest", [](){return new EventPlayerOpenChest(typeid(EventPlayerOpenChest).hash_code());}},
+            {"PlayerTakeDamage", [](){return new EventPlayerTakeDamage(typeid(EventPlayerTakeDamage).hash_code());}},
+            {"FieldCrashWall", [](){return new EventFieldCrashWall(typeid(EventFieldCrashWall).hash_code());}},
+            {"FieldSpawnCoins", [](){return new EventFieldSpawnCoins(typeid(EventFieldSpawnCoins).hash_code());}}
+    };
 
     size_t hash(std::pair<int, int>, std::pair<int, int>, std::pair<int, int>, int, std::vector<std::vector<Cell>>);
     std::string createSaveState();

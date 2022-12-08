@@ -7,8 +7,7 @@
 class CellGrass: public Cell{
 public:
     ~CellGrass() = default;
-    CellGrass();
-    size_t hash() override;
+    CellGrass(size_t);
 };
 
 

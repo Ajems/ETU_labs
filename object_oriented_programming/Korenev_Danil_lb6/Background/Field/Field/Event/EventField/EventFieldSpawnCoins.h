@@ -3,12 +3,14 @@
 
 
 #include "EventField.h"
-#include "../../Field.h"
 
 class EventFieldSpawnCoins: public EventField{
 public:
+    explicit EventFieldSpawnCoins(size_t value = size_t(1));
     ~EventFieldSpawnCoins() override = default;
+    size_t hash() override;
 private:
+    size_t hashCode;
     void changeField(Field* ) override;
 };
 

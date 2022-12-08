@@ -45,4 +45,6 @@ void Model::saveGame() {
 void Model::restoreGame() {
     Memento mementoSavedState;
     player.restoreState(mementoSavedState);
+    field->restoreState(mementoSavedState);
+    notify();
 }

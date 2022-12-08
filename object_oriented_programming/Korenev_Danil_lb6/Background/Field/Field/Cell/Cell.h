@@ -8,6 +8,7 @@
 
 class Cell{
 public:
+    Cell(size_t value = size_t(1));
     bool isPassable() const;
     bool isStepped() const;
     void setUnstepped();
@@ -16,11 +17,12 @@ public:
     Event* getEvent();
     void callEvent(GameObject*);
     virtual ~Cell() = default;
-    virtual size_t hash();
+    size_t hash();
 protected:
     Event* event = nullptr;
     bool passable = false;
     bool stepped = false;
+    size_t hashCode;
 };
 
 

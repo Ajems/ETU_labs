@@ -10,7 +10,6 @@ void Memento::saveState(std::string state, std::string filename) {
 
     fileSave << state;
     fileSave.close();
-    std::cout << "FILE SAVE SAVE\n";
 }
 
 std::string Memento::restoreState(std::string filename) {

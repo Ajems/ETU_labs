@@ -5,11 +5,13 @@
 
 class EventPlayerTakeDamage: public EventPlayer{
 public:
-    explicit EventPlayerTakeDamage(int value = 10);
+    explicit EventPlayerTakeDamage(size_t hash = size_t(1));
     ~EventPlayerTakeDamage() override = default;
+    size_t hash() override;
 private:
+    size_t hashCode;
     void changePlayer(Player* player) override;
-    int value;
+    int value = 10;
 };
 
 

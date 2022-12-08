@@ -7,8 +7,7 @@
 class CellPlayer: public Cell{
 public:
     ~CellPlayer() = default;
-    CellPlayer();
-    size_t hash() override;
+    CellPlayer(size_t);
 };
 
 

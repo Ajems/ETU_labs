@@ -38,6 +38,8 @@ void Cell::callEvent(GameObject* obj){
         event = nullptr;
 }
 
+Cell::Cell(size_t value): hashCode(value){}
+
 size_t Cell::hash() {
-    return std::max(std::hash<size_t>()(typeid(this).hash_code()), size_t(1));
+    return hashCode;
 }

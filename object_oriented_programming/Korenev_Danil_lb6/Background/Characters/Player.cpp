@@ -109,12 +109,11 @@ void Player::restoreState(Memento playerMemento) {
 }
 
 std::string Player::createSaveState() {
-    std::string playerParameters;
+    std::string playerParameters = std::to_string(hash(health, xp, shield, coins));
     for (const auto& parameter: parameters){
-        playerParameters+=std::to_string(getValue.at(parameter)());
         playerParameters+="\n";
+        playerParameters+=std::to_string(getValue.at(parameter)());
     }
-    playerParameters += std::to_string(hash(health, xp, shield, coins));
     return playerParameters;
 }
 
@@ -122,18 +121,18 @@ void Player::restoreData(const std::string& str) {
     auto ss = std::stringstream{str};
     std::vector<int> data;
     std::string hashFromFile;
-    int cnt = 0;
+    bool isReadHash = true;
     for (std::string line; std::getline(ss, line, '\n');){
-        if (cnt == 4){
+        if (isReadHash){
             hashFromFile = line;
-            break;
-        }
-        data.push_back(std::stoi(line));
-        ++cnt;
+            isReadHash = false;
+        } else data.push_back(std::stoi(line));
     }
+
     size_t playerHash = hash(data[0], data[1], data[2], data[3]);
     if (std::to_string(playerHash) != hashFromFile){
-        std::cout << "Пидарас и читер, мать ебал\n";
+        std::cout << "Изменен файл игрока\n";
+        std::cout << std::to_string(playerHash) << '\n';
     } else {
         health = data[0];
         shield = data[1];

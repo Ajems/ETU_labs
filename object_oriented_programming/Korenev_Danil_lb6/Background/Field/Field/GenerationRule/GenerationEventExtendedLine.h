@@ -13,7 +13,7 @@ public:
         for (int t = 0; t < thick; ++t){
             for (int w = start; w < end; ++w){
                 try{
-                    field.setEvent(std::pair{w, top-t}, new event(value1, value2));
+                    field.setEvent(std::pair{w, top-t}, new event(value1, value2, typeid(event).hash_code()));
                 } catch(...) {
                     Message message = Message(Levels::ErrorMessage, "Could not set event extended by line");
                     LogPool::getInstance()->printLog(&message);

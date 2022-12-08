@@ -13,7 +13,7 @@ public:
         for (int t = 0; t < thick; ++t){
             for (int w = start; w < end; ++w){
                 try{
-                    field.changeCell(std::pair{w, top-t}, new cellType());
+                    field.changeCell(std::pair{w, top-t}, new cellType(typeid(cellType).hash_code()));
                 } catch (...) {
                     Message message = Message(Levels::ErrorMessage, "Could not generate cell" + std::to_string(top-t) + "\t" + std::to_string(w));
                     LogPool::getInstance()->printLog(&message);
