@@ -57,7 +57,7 @@ private:
             {typeid(EventFieldSpawnCoins).hash_code(), "FieldSpawnCoins"}
     };
 
-    std::map<std::string, std::function<Event*()>> getEventFromFile = {
+    std::map<std::string, std::function<Event*()>> eventToObject = {
             {"PlayerAddCoin", [](){return new EventPlayerAddCoin(typeid(EventPlayerAddCoin).hash_code());}},
             {"PlayerAddHealth", [](){return new EventPlayerAddHealth(typeid(EventPlayerAddHealth).hash_code());}},
             {"PlayerAddShield", [](){return new EventPlayerAddShield(typeid(EventPlayerAddShield).hash_code());}},
@@ -67,9 +67,10 @@ private:
             {"FieldSpawnCoins", [](){return new EventFieldSpawnCoins(typeid(EventFieldSpawnCoins).hash_code());}}
     };
 
-    size_t hash(std::pair<int, int>, std::pair<int, int>, std::pair<int, int>, int, std::vector<std::vector<Cell>>);
     std::string createSaveState();
     void restoreData(const std::string &str);
+    size_t hash(std::pair<int, int>, std::pair<int, int>, std::pair<int, int>, int, std::vector<std::vector<Cell>>);
+    std::tuple<std::pair<int, int>, std::pair<int, int>, std::pair<int, int>, int, std::vector<std::vector<Cell>>*> restoredData;
 public:
     std::vector<std::vector<Cell>> field;
 
@@ -109,8 +110,9 @@ public:
 
     bool isPlayerSpawned();
 
-    Memento saveState() override;
-    void restoreState(Memento) override;
+    Memento saveState() final;
+    void restoreState(Memento) final;
+    void restoreCorrectState() final;
 };
 
 

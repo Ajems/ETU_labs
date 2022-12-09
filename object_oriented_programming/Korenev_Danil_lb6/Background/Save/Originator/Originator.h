@@ -3,12 +3,12 @@
 
 #include "../Memento/Memento.h"
 
-//создает объект хранителя для сохранения своего состояния
 class Originator {
 public:
-    virtual Memento saveState() = 0; // создание memento по своим правилам
-    virtual void restoreState(Memento) = 0; // создание/изменение себя(filed/player)
-                                            // по восстановлению из memento данных
+    virtual Memento saveState() = 0;
+    virtual void restoreState(Memento) = 0;
+    virtual void restoreCorrectState() = 0;
+
 };
 
 

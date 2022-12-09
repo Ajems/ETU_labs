@@ -1,6 +1,11 @@
 #include <iostream>
 #include "Model.h"
 #include "../../Runtime/Interaction/GameStatus.h"
+#include "../../Runtime/Exceptions/SaveExceptions/SaveStateException.h"
+#include "../../Runtime/Log/Message/Message.h"
+#include "../../Runtime/Log/LogPool/LogPool.h"
+#include "../../Runtime/Exceptions/SaveExceptions/OpenFileException.h"
+#include "../../Runtime/Exceptions/SaveExceptions/RestoreStateException.h"
 
 Model::Model() : player(Player()), context(nullptr) {};
 
@@ -38,8 +43,18 @@ Model::~Model() {
 }
 
 void Model::saveGame() {
-    player.saveState();
-    field->saveState();
+    try {
+        player.saveState();
+        field->saveState();
+        Message message = Message(Levels::StatusMessage, "Game saved");
+        LogPool::getInstance()->printLog(&message);
+    } catch (SaveStateException& se) {
+        throw SaveStateException(se.what());
+    } catch (...) {
+        Message message = Message(Levels::ErrorMessage, "Unknown error save state");
+        LogPool::getInstance()->printLog(&message);
+    }
+
 }
 
 void Model::restoreGame() {
@@ -47,8 +62,18 @@ void Model::restoreGame() {
     try {
         player.restoreState(mementoSavedState);
         field->restoreState(mementoSavedState);
-    } catch (...){ //TODO
-        //TODO
+        //все данные файлов корректны -> можно восстановить состояние игры
+        player.restoreCorrectState();
+        field->restoreCorrectState();
+        Message message = Message(Levels::StatusMessage, "game loaded");
+        LogPool::getInstance()->printLog(&message);
+    } catch (OpenFileException& ofe){
+        throw OpenFileException(ofe.what());
+    } catch (RestoreStateException& rse){
+        throw RestoreStateException(rse.what());
+    } catch (...) {
+        Message message = Message(Levels::ErrorMessage, "unknown error restore gamer");
+        LogPool::getInstance()->printLog(&message);
     }
     notify();
 }

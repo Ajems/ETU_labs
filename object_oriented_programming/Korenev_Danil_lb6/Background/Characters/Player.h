@@ -20,6 +20,7 @@ private:
             {"coins", [this](){return this->coins;}}
     };
     size_t hash(int, int, int, int);
+    std::vector<int> restoredData;
 public:
 
     Player(int health = 100,
@@ -44,8 +45,9 @@ public:
 
     void roundValue(int&);
 
-    Memento saveState() override;
-    void restoreState(Memento) override;
+    Memento saveState() final;
+    void restoreState(Memento) final;
+    void restoreCorrectState() final;
 
 private:
     int health;

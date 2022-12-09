@@ -4,6 +4,8 @@
 #include "Player.h"
 #include "../../Runtime/Log/Message/Message.h"
 #include "../../Runtime/Log/LogPool/LogPool.h"
+#include "../../Runtime/Exceptions/SaveExceptions/RestoreStateException.h"
+#include "../../Runtime/Exceptions/SaveExceptions/OpenFileException.h"
 
 #define MAXVALUE 100
 #define SAVEFILE "player_save.txt"
@@ -63,7 +65,6 @@ void Player::addCoins(int coins) {
 
 
 void Player::downHealth(int health){
-    std::cout << "Down health " << health << '\n';
     if (this->health <= health){
         this->health = 0;
     } else {
@@ -73,7 +74,6 @@ void Player::downHealth(int health){
     LogPool::getInstance()->printLog(&message);
 }
 void Player::takeDamage(int shield){
-    std::cout << "Take damage " << shield << '\n';
     int tmpShield = this->shield;
     if (this->shield < shield){
         this->shield = 0;
@@ -125,33 +125,41 @@ void Player::restoreData(const std::string& str) {
     std::vector<int> data;
     std::string hashFromFile;
     bool isReadHash = true;
-    for (std::string line; std::getline(ss, line, '\n');){
-        if (isReadHash){
-            hashFromFile = line;
-            isReadHash = false;
-        } else data.push_back(std::stoi(line));
+    int cntLine = 0;
+    std::string tmpLine;
+    try{
+        for (std::string line; std::getline(ss, line, '\n');){
+            tmpLine = line;
+            if (isReadHash){
+                hashFromFile = line;
+                isReadHash = false;
+            } else data.push_back(std::stoi(line));
+            ++cntLine;
+        }
+    } catch (...) {
+        throw OpenFileException("Player file data incorrect at line " + std::to_string(cntLine) + " >> " + tmpLine);
     }
 
     size_t playerHash = hash(data[0], data[1], data[2], data[3]);
     if (std::to_string(playerHash) != hashFromFile){
-        std::cout << "Изменен файл игрока\n";
-        std::cout << std::to_string(playerHash) << '\n';
+        throw RestoreStateException("Player file data has been changed. Hash of restored data " + std::to_string(playerHash) + "not equal " + hashFromFile);
     } else {
-        health = data[0];
-        shield = data[1];
-        xp = data[2];
-        coins = data[3];
+        restoredData = data;
     }
 }
 
 
 size_t Player::hash(int health, int shield, int xp, int coins) {
-    size_t hashHealth = std::max(std::hash<int>()(health), size_t(1));
-    size_t hashShield = std::max(std::hash<int>()(shield), size_t(1));
+    size_t hashHealth = std::hash<int>()(health);
+    size_t hashShield = std::hash<int>()(shield);
     size_t hashXp = std::max(std::hash<int>()(xp), size_t(1));
     size_t hashCoins = std::max(std::hash<int>()(coins), size_t(1));
-    return hashHealth ^ ( (hashShield << 1) ^ ( (hashXp << 2) ^ (hashCoins << 3)));
+    return hashHealth xor ( (hashShield << hashShield%10) xor ( (hashXp << hashXp%10) xor (hashCoins << hashCoins%10)));
 }
 
-
-
+void Player::restoreCorrectState() {
+    health = restoredData[0];
+    shield = restoredData[1];
+    xp = restoredData[2];
+    coins = restoredData[3];
+}

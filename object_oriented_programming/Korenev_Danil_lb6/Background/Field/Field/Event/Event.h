@@ -5,7 +5,7 @@
 
 
 class Event {
-private:
+protected:
     size_t hashCode;
 public:
     virtual ~Event() = default;

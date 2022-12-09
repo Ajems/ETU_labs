@@ -6,6 +6,9 @@
 #include "Event/EventField/EventFieldCrashWall.h"
 #include "../../../Runtime/Log/Levels.h"
 #include "../../../Runtime/Log/LogPool/LogPool.h"
+#include "../../../Runtime/Exceptions/SaveExceptions/RestoreStateException.h"
+#include "../../../Runtime/Exceptions/SaveExceptions/OpenFileException.h"
+
 #define SAVEFILE "field_save.txt"
 #define TOTALFIELDINTPARAMS 7
 #define INDEXSIZE 0
@@ -246,56 +249,60 @@ void Field::restoreData(const std::string &str) {
     std::string hashFromFile;
     bool isReadHash = true;
     int cntLine = 0;
+    int cntTotalLine = 1;
     bool isCellType = true;
     int width = 0;
     int height = 0;
-    std::vector<std::vector<Cell>> tmpField;
-    for (std::string line; std::getline(ss, line, '\n');){
-        if (isReadHash){
-            hashFromFile = line;
-            isReadHash = false;
-        } else {
-            if (cntLine < TOTALFIELDINTPARAMS) data.push_back(std::stoi(line));
-            else{
-                if (isCellType){
-                    if (width == 0) tmpField.emplace_back();
-                    tmpField.at(height).emplace_back();
-                    tmpField.at(height).at(width) = cellFactory.getCell(line);
-                } else {
-                    if (line != "None"){
-                        auto tmpEvent = getEventFromFile.at(line)();
-                        tmpField.at(height).at(width).setEvent(tmpEvent);
+    auto* tmpField = new std::vector<std::vector<Cell>>();
+    std::string tmpLine;
+    try {
+        for (std::string line; std::getline(ss, line, '\n');) {
+            tmpLine = line;
+            if (isReadHash) {
+                hashFromFile = line;
+                isReadHash = false;
+            } else {
+                if (cntLine < TOTALFIELDINTPARAMS)
+                    data.push_back(std::stoi(line));
+                else {
+                    if (isCellType) {
+                        if (width == 0) tmpField->emplace_back();
+                        tmpField->at(height).emplace_back();
+                        tmpField->at(height).at(width) = cellFactory.getCell(line);
+                    } else {
+                        if (line != "None") {
+                            auto tmpEvent = eventToObject.at(line)();
+                            tmpField->at(height).at(width).setEvent(tmpEvent);
+                        }
+                        ++width;
                     }
-                    ++width;
+                    height += width / data[INDEXSIZE];
+                    width %= data[INDEXSIZE];
+                    isCellType = !isCellType;
                 }
-                height+=width/data[INDEXSIZE];
-                width%=data[INDEXSIZE];
-                isCellType = !isCellType;
+                ++cntLine;
             }
-            ++cntLine;
+            ++cntTotalLine;
         }
+    } catch (...) {
+        throw OpenFileException("Field file data incorrect at line " + std::to_string(cntTotalLine) + " >> " + tmpLine);
     }
     size_t fieldHash = hash(std::pair<int, int>(data[INDEXSIZE], data[INDEXSIZE+1]),
                             std::pair<int, int>(data[INDEXPLAYERPOSITION], data[INDEXPLAYERPOSITION+1]),
                             std::pair<int, int>(data[INDEXFINISHPOSITION], data[INDEXFINISHPOSITION+1]),
                             data[INDEXTOTALCOINS],
-                            tmpField);
+                            *tmpField);
 
     if (std::to_string(fieldHash) != hashFromFile){
-        std::cout << "Изменен файл поля\n"; // заменить на throw
+        throw RestoreStateException("Field file data has been changed. Hash of restored data " + std::to_string(fieldHash) + "not equal " + hashFromFile);
     } else {
-        for (int h = 0; h < fieldSize.second; ++h){
-            for (int w = 0; w < fieldSize.first; ++w){
-                delete field.at(h).at(w).getEvent();
-            }
-        }
-        field.clear();
-        playerPosition = std::make_pair(data[INDEXPLAYERPOSITION], data[INDEXPLAYERPOSITION+1]);
-        field = tmpField;
-        fieldSize = std::pair<int, int>(data[INDEXSIZE], data[INDEXSIZE+1]);
-        finishPosition = std::pair<int, int>(data[INDEXFINISHPOSITION], data[INDEXFINISHPOSITION+1]);
-        totalCoins = data[INDEXTOTALCOINS];
-        changePlayerPosition(std::make_pair(data[INDEXPLAYERPOSITION], data[INDEXPLAYERPOSITION+1]));
+        restoredData = std::make_tuple(
+                std::pair<int, int>(data[INDEXSIZE], data[INDEXSIZE+1]),
+                std::pair<int, int>(data[INDEXPLAYERPOSITION], data[INDEXPLAYERPOSITION+1]),
+                std::pair<int, int>(data[INDEXFINISHPOSITION], data[INDEXFINISHPOSITION+1]),
+                data[INDEXTOTALCOINS],
+                tmpField
+        );
     }
 }
 
@@ -317,6 +324,21 @@ size_t Field::hash(std::pair<int, int> size, std::pair<int, int> playerPosition,
     }
 
     return hashField ^ ( (hashCoins << 1) ^ ( (hashFinishPosition << 2) ^ ( (hashPlayerPosition << 3) ^ (hashSize << 4))));
+}
+
+void Field::restoreCorrectState() {
+    for (int h = 0; h < fieldSize.second; ++h){
+        for (int w = 0; w < fieldSize.first; ++w){
+            delete field.at(h).at(w).getEvent();
+        }
+    }
+    field.clear();
+    playerPosition = std::get<1>(restoredData);
+    field = *std::get<4>(restoredData);
+    fieldSize = std::get<0>(restoredData);
+    finishPosition = std::get<2>(restoredData);
+    totalCoins = std::get<3>(restoredData);
+    changePlayerPosition(playerPosition);
 }
 
 
