@@ -63,6 +63,7 @@ void Player::addCoins(int coins) {
 
 
 void Player::downHealth(int health){
+    std::cout << "Down health " << health << '\n';
     if (this->health <= health){
         this->health = 0;
     } else {
@@ -72,14 +73,16 @@ void Player::downHealth(int health){
     LogPool::getInstance()->printLog(&message);
 }
 void Player::takeDamage(int shield){
+    std::cout << "Take damage " << shield << '\n';
+    int tmpShield = this->shield;
     if (this->shield < shield){
-        this->downHealth(shield - this->shield);
         this->shield = 0;
     } else {
         this->shield -= shield;
     }
     Message message = Message(Levels::GameMessage, "Shield parameter reduced to " + std::to_string(this->shield));
     LogPool::getInstance()->printLog(&message);
+    this->downHealth(shield - tmpShield);
 }
 void Player::downCoins(int coins){
     if (this->coins < coins){

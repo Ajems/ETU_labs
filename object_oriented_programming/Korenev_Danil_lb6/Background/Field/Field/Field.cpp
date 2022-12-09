@@ -98,9 +98,12 @@ void Field::changePlayerPosition(std::pair<int, int> newPosition) {
     try{
         if (getCell(newPosition).isPassable()){
             getCell(playerPosition).setUnstepped();
-            std::cout << "Old position " << playerPosition.first << '\t' << playerPosition.second << '\n';
+            field.at(playerPosition.second).at(playerPosition.first) = cellFactory.getCell("Grass");
             getCell(newPosition).setStepped();
-            playerPosition = newPosition;
+            playerPosition = std::move(newPosition);
+            Event* tmpEvent = field.at(playerPosition.second).at(playerPosition.first).getEvent();
+            field.at(playerPosition.second).at(playerPosition.first) = cellFactory.getCell("Player");
+            field.at(playerPosition.second).at(playerPosition.first).setEvent(tmpEvent);
             Message message = Message(Levels::GameMessage, "Player moved to (" + std::to_string(playerPosition.first) + ", " + std::to_string(playerPosition.second) + ')');
             LogPool::getInstance()->printLog(&message);
         } else {
@@ -287,12 +290,12 @@ void Field::restoreData(const std::string &str) {
             }
         }
         field.clear();
-
+        playerPosition = std::make_pair(data[INDEXPLAYERPOSITION], data[INDEXPLAYERPOSITION+1]);
         field = tmpField;
         fieldSize = std::pair<int, int>(data[INDEXSIZE], data[INDEXSIZE+1]);
         finishPosition = std::pair<int, int>(data[INDEXFINISHPOSITION], data[INDEXFINISHPOSITION+1]);
         totalCoins = data[INDEXTOTALCOINS];
-        //changePlayerPosition(std::pair<int, int>(data[INDEXPLAYERPOSITION], data[INDEXPLAYERPOSITION+1]));
+        changePlayerPosition(std::make_pair(data[INDEXPLAYERPOSITION], data[INDEXPLAYERPOSITION+1]));
     }
 }
 
