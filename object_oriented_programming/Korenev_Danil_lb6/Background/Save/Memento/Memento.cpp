@@ -9,7 +9,7 @@ void Memento::saveState(const std::string& state, const std::string& filename) {
     std::fstream fileSave;
     fileSave.open(filename, std::ios::out);
     if (!fileSave.is_open())
-        throw SaveStateException("could not open file [ " + filename + " ] for save state");
+        throw OpenFileException("Could not open file [ " + filename + " ] for save state");
     fileSave << state;
     fileSave.close();
 }
@@ -18,7 +18,7 @@ std::string Memento::restoreState(const std::string& filename) {
     std::fstream fileSave;
     fileSave.open(filename);
     if(!fileSave.is_open())
-        throw OpenFileException("could not open file [ " + filename + " ] for restore state");
+        throw OpenFileException("Could not open file [ " + filename + " ] for restore state");
     std::string data;
     std::string line;
     while (getline(fileSave, line)){

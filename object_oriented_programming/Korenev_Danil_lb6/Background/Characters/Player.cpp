@@ -142,7 +142,7 @@ void Player::restoreData(const std::string& str) {
 
     size_t playerHash = hash(data[0], data[1], data[2], data[3]);
     if (std::to_string(playerHash) != hashFromFile){
-        throw RestoreStateException("Player file data has been changed. Hash of restored data " + std::to_string(playerHash) + "not equal " + hashFromFile);
+        throw RestoreStateException("Player file data has been changed. Hash of restored data " + std::to_string(playerHash) + " not equal " + hashFromFile);
     } else {
         restoredData = data;
     }
@@ -152,8 +152,8 @@ void Player::restoreData(const std::string& str) {
 size_t Player::hash(int health, int shield, int xp, int coins) {
     size_t hashHealth = std::hash<int>()(health);
     size_t hashShield = std::hash<int>()(shield);
-    size_t hashXp = std::max(std::hash<int>()(xp), size_t(1));
-    size_t hashCoins = std::max(std::hash<int>()(coins), size_t(1));
+    size_t hashXp = std::hash<int>()(xp);
+    size_t hashCoins = std::hash<int>()(coins);
     return hashHealth xor ( (hashShield << hashShield%10) xor ( (hashXp << hashXp%10) xor (hashCoins << hashCoins%10)));
 }
 

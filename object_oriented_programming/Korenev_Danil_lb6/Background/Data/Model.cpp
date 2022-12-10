@@ -54,7 +54,7 @@ void Model::saveGame() {
         Message message = Message(Levels::ErrorMessage, "Unknown error save state");
         LogPool::getInstance()->printLog(&message);
     }
-
+    notify();
 }
 
 void Model::restoreGame() {

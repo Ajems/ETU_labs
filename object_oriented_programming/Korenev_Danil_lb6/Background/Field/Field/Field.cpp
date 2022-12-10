@@ -309,10 +309,10 @@ void Field::restoreData(const std::string &str) {
 
 
 size_t Field::hash(std::pair<int, int> size, std::pair<int, int> playerPosition, std::pair<int, int> finishPosition, int coins, std::vector<std::vector<Cell>> field) {
-    size_t hashSize = std::max(std::hash<int>()(size.first), size_t(1)) ^ (std::max(std::hash<int>()(size.second << 1), size_t(1)));
-    size_t hashPlayerPosition = std::max(std::hash<int>()(playerPosition.first), size_t(1)) ^ (std::max(std::hash<int>()(playerPosition.second << 1), size_t(1)));
-    size_t hashFinishPosition = std::max(std::hash<int>()(finishPosition.first), size_t(1)) ^ (std::max(std::hash<int>()(finishPosition.second << 1), size_t(1)));
-    size_t hashCoins = std::max(std::hash<int>()(coins), size_t(1));
+    size_t hashSize = std::hash<int>()(size.first) xor std::hash<int>()(size.second << 1);
+    size_t hashPlayerPosition = std::hash<int>()(playerPosition.first) xor std::hash<int>()(playerPosition.second << 1);
+    size_t hashFinishPosition = std::hash<int>()(finishPosition.first) xor std::hash<int>()(finishPosition.second << 1);
+    size_t hashCoins = std::hash<int>()(coins);
 
     auto hashField = size_t(0);
     for (int h = 0; h < size.second; ++h){
@@ -323,7 +323,7 @@ size_t Field::hash(std::pair<int, int> size, std::pair<int, int> playerPosition,
         }
     }
 
-    return hashField ^ ( (hashCoins << 1) ^ ( (hashFinishPosition << 2) ^ ( (hashPlayerPosition << 3) ^ (hashSize << 4))));
+    return hashField xor ( (hashCoins << 1) xor ( (hashFinishPosition << 2) xor ( (hashPlayerPosition << 3) xor (hashSize << 4))));
 }
 
 void Field::restoreCorrectState() {
