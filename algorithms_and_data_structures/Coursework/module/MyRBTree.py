@@ -92,8 +92,8 @@ class MyRBTree:
         node.left = tmp.right
         if tmp.right != self.NULL:
             tmp.right.parent = node
-        tmp.parent = node.parent
 
+        tmp.parent = node.parent
         if node.parent is None:
             self.root = tmp
         elif node == node.parent.right:
@@ -103,129 +103,105 @@ class MyRBTree:
         tmp.right = node
         node.parent = tmp
 
-    def remove(self, key):
+    def delete(self, key):
+        self.remove(self.root, key)
+
+    def remove(self, node, key):
+        tmp_node = self.NULL
         hashed_key = hash(key)
-        print("Hashed key is {}".format(hashed_key))
-        current_node = self.root
-        node_delete = None
-        if current_node == self.NULL:
-            print("Node with {0} key doesn't exist. Tree is empty".format(key))
-            return
-        # найти элемент для удаления
-        while current_node:
-            if current_node.key == key: #current_node.val == hashed_key было необязательным
-                node_delete = current_node
-            if current_node.val > hashed_key:
-                current_node = current_node.left
+        while node != self.NULL:
+            if node.key == key:
+                tmp_node = node
+            if node.val <= hashed_key:
+                node = node.right
             else:
-                current_node = current_node.right
+                node = node.left
+        if tmp_node == self.NULL:
+            print("Node with {} key doesn't exist".format(key))
 
-        # элемента нет в дереве
-        if node_delete is None:
-            print("Node with {0} key doesn't exist. Tree is empty".format(key))
-            return
-
-        # процесс удаления
-        print("Element found key = {}, hashed key = {}, data = {}".format(node_delete.key, node_delete.val, node_delete.data))
-
-        if node_delete.left is None and node_delete.right is None: # детей нет, надо удалить и занулить себя
-            print("Я конченый (конечный) элемент, смой меня нахуй")
-            # просто удалить
-            if node_delete.parent.left == node_delete:
-                node_delete.parent.left = None
-            else:
-                node_delete.parent.right = None
-            node_delete.parent = None
-        # значит либо 1 либо 2 ребенка, рассмотрим ситуации с одним ребенком
-        # на место удаленного элемента надо поставить его ребенка, установить связи
-        # пофиксить цвета
-        elif node_delete.left is None: # нет левого ребенка -> есть правый
-            print("нет левого ребенка -> есть правый")
-            node_delete.right.parent = node_delete.parent
-            if node_delete.parent.left == node_delete: # нода - левый ребенок
-                node_delete.parent.left = node_delete.right
-                node_delete.right = None
-            else: # нода - правый ребенок
-                node_delete.parent.right = node_delete.right
-                node_delete.right = None
-            node_delete.parent = None
-        elif node_delete.right is None: # есть только левый ребенок
-            print("есть только левый ребенок")
-            node_delete.left.parent = node_delete.parent
-            if node_delete.parent.left == node_delete:  # нода - левый ребенок
-                node_delete.parent.left = node_delete.left # ребенок и родитель связаны
-                node_delete.left = None
-            else:  # нода - правый ребенок
-                node_delete.parent.right = node_delete.left
-                node_delete.left = None
-            node_delete.parent = None
-        # значит оба ребенка есть
+        contain_node = tmp_node
+        contain_color = contain_node.color
+        if tmp_node.left == self.NULL:
+            child_node = tmp_node.right
+            self.__transplant(tmp_node, tmp_node.right)
+        elif tmp_node.right == self.NULL:
+            child_node = tmp_node.left
+            self.__transplant(tmp_node, tmp_node.left)
         else:
-            print("значит оба ребенка есть right data {}, left data {}".format(node_delete.right.data, node_delete.left.data))
-            # надо взять минимальный элемент в правом поддереве
-            # поменяться с ним данными
-            # удалить этот элемент с данными удаляемого элемента
-            tmp_node: Node = self.minimum(node_delete.right)
-            self.swap_node(node_delete, tmp_node)
-            # у него нет детей, т.к. он конечный и он левый т.к. минимальный
-            # но может оказаться, что он правый, если это правый ребенок удаляемого эл-та
-            color = tmp_node.color
-            if node_delete.right == tmp_node:
-                node_delete.right = tmp_node.right
+            contain_node = self.minimum(tmp_node.right)
+            contain_color = contain_node.color
+            child_node = contain_node.right
+            if contain_node.parent == tmp_node:
+                child_node.parent = contain_node
             else:
-                tmp_node.parent.left = tmp_node.right
-            tmp_node.right.parent = tmp_node.parent
-            tmp_node.right = None
-            tmp_node.parent = None
+                self.__transplant(contain_node, contain_node.right)
+                contain_node.right = tmp_node.right
+                contain_node.right.parent = contain_node
+            self.__transplant(tmp_node, contain_node)
+            contain_node.left = tmp_node.left
+            contain_node.right.parent = contain_node
+            contain_node.color = tmp_node.color
+        if contain_color == 0:
+            self.fix_remove(child_node)
 
-            if color == 0:  # нарушение свойства может быть только если цвет удаляемого черный
-                            # так как при удалении красного черная глубина не меняется
-                self.fix_remove(tmp_node)
+    def __transplant(self, node_1, node_2):
+        if node_1.parent is None:
+            self.root = node_2
+        elif node_1 == node_1.parent.left:
+            node_1.parent.left = node_2
+        else:
+            node_1.parent.right = node_2
+        node_2.parent = node_1.parent
 
     def fix_remove(self, tmp_node: Node):
-        while tmp_node.color == 0 and tmp_node.parent is not None:
-            if tmp_node.parent.left == tmp_node:
-                if tmp_node.parent.right.color == 1: # если брат красный
-                    tmp_node.parent.color = 1 # отец - красный
-                    tmp_node.parent.right.color = 0 # брат черный
-                    self.LR(tmp_node.parent)
-                # Оба ребёнка у брата чёрные
-                if (tmp_node.parent.right.left is not None) and (tmp_node.parent.right.left.color == 0) and (tmp_node.parent.right.right is not None) and (tmp_node.parent.right.right.color == 0):
-                    tmp_node.parent.right.color = 1
-                    tmp_node.parent.color = 0
-                #Если у брата правый ребёнок чёрный, а левый красный
-                elif (tmp_node.parent.right.left is not None) and (tmp_node.parent.right.left.color == 1) and (tmp_node.parent.right.right is not None) and (tmp_node.parent.right.right.color == 0):
-                    tmp_node.parent.right.left.color = 0
-                    tmp_node.parent.right.color = 1 # мб просто перекрасить а не красный
-                    self.RR(tmp_node.parent.right)
-                elif tmp_node.parent.right.right.color == 1: #Если у брата правый ребёнок красный
-                    tmp_node.parent.right.color = tmp_node.parent.color # перекрашиваем брата в цвет отца
-                    tmp_node.parent.right.right.color = 0
-                    tmp_node.color = 0
-                    self.LR(tmp_node.parent)
+        while tmp_node != self.root and tmp_node.color == 0:  # Repeat until tmp_node reaches nodes and color of tmp_node is black
+            if tmp_node == tmp_node.parent.left:  # If tmp_node is left child of its parent
+                contain_node = tmp_node.parent.right  # Sibling of tmp_node
+                if contain_node.color == 1:  # if sibling is red
+                    contain_node.color = 0  # Set its color to black
+                    tmp_node.parent.color = 1  # Make its parent red
+                    self.LR(tmp_node.parent)  # Call for left rotate on parent of tmp_node
+                    contain_node = tmp_node.parent.right
+                # If both the child are black
+                if contain_node.left.color == 0 and contain_node.right.color == 0:
+                    contain_node.color = 1  # Set color of contain_node as red
+                    tmp_node = tmp_node.parent
+                else:
+                    if contain_node.right.color == 0:  # If right child of contain_node is black
+                        contain_node.left.color = 0  # set left child of contain_node as black
+                        contain_node.color = 1  # set color of contain_node as red
+                        self.RR(contain_node)  # call right rotation on tmp_node
+                        contain_node = tmp_node.parent.right
+
+                    contain_node.color = tmp_node.parent.color
+                    tmp_node.parent.color = 0  # Set parent of tmp_node as black
+                    contain_node.right.color = 0
+                    self.LR(tmp_node.parent)  # call left rotation on parent of tmp_node
                     tmp_node = self.root
-            else: # tmp_node - правый
-                if tmp_node.parent.left.color == 1:
-                    tmp_node.parent.left.color = 0
-                    tmp_node.parent.color = 1
-                    self.RR(tmp_node.parent)
-                # Оба ребёнка у брата чёрные
-                if (tmp_node.parent.left.left is not None) and (tmp_node.parent.left.left.color == 0) and (tmp_node.parent.left.right is not None) and (tmp_node.parent.left.right.color == 0):
-                    tmp_node.parent.left.color = 1
+            else:  # If tmp_node is right child of its parent
+                contain_node = tmp_node.parent.left  # Sibling of tmp_node
+                if contain_node.color == 1:  # if sibling is red
+                    contain_node.color = 0  # Set its color to black
+                    tmp_node.parent.color = 1  # Make its parent red
+                    self.RR(tmp_node.parent)  # Call for right rotate on parent of tmp_node
+                    contain_node = tmp_node.parent.left
+
+                if contain_node.right.color == 0 and contain_node.right.color == 0:
+                    contain_node.color = 1
+                    tmp_node = tmp_node.parent
+                else:
+                    if contain_node.left.color == 0:  # If left child of contain_node is black
+                        contain_node.right.color = 0  # set right child of contain_node as black
+                        contain_node.color = 1
+                        self.LR(contain_node)  # call left rotation on tmp_node
+                        contain_node = tmp_node.parent.left
+
+                    contain_node.color = tmp_node.parent.color
                     tmp_node.parent.color = 0
-                #Если у брата левый ребёнок чёрный, а левый красный
-                elif (tmp_node.parent.left.left is not None) and (tmp_node.parent.left.left.color == 0) and (tmp_node.parent.left.right is not None) and (tmp_node.parent.left.right.color == 1):
-                    tmp_node.parent.left.right.color = 0
-                    tmp_node.parent.left.color = 1 # мб просто перекрасить а не красный
-                    self.LR(tmp_node.parent.left)
-                elif tmp_node.parent.left.left is not None and tmp_node.parent.left.left.color == 1: #Если у брата левый ребёнок красный
-                    tmp_node.parent.left.color = tmp_node.parent.color # перекрашиваем брата в цвет отца
-                    tmp_node.parent.left.left.color = 0
-                    tmp_node.color = 0
+                    contain_node.left.color = 0
                     self.RR(tmp_node.parent)
                     tmp_node = self.root
         tmp_node.color = 0
-        self.root.color = 0
 
 
     def get(self, key):
@@ -247,7 +223,7 @@ class MyRBTree:
         if change_color:
             node_1.color, node_2.color = node_2.color, node_1.color
 
-    def minimum(self, node):
+    def minimum(self, node) -> Node:
         while node.left != self.NULL:
             node = node.left
         return node

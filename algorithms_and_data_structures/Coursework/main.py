@@ -1,5 +1,6 @@
 from module.HashTable import HashTable
 from module.RBTree import RBTree
+from module.OneMoreRBTree import RBTree as OneMoreRBTree
 from module.MyRBTree import MyRBTree
 import time
 
@@ -24,20 +25,21 @@ def main():
     # print("end table")
 
 
-    rb_tree = MyRBTree()
+    rb_tree = OneMoreRBTree()
     start = time.time()
-    for i in range(6):
-        print(i)
-        rb_tree.insert(str(i), i)
+    for i in range(10000):
+        #print(i)
+        rb_tree.insertNode(str(i))
         #rb_tree.print()
-        print()
+        #print()
     end = time.time() - start
 
-    rb_tree.print()
-    print()
+    #rb_tree.print()
+    #print()
 
-    rb_tree.remove(str(3))
-    # rb_tree.print()
+    for i in range (9800):
+        rb_tree.delete_node(str(i))
+    rb_tree.print_tree()
 
 
 
