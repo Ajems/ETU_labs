@@ -26,38 +26,19 @@ def main():
 
 
     rb_tree = OneMoreRBTree()
-    start = time.time()
-    for i in range(10000):
-        #print(i)
+    for i in range(100000):
         rb_tree.insertNode(str(i))
-        #rb_tree.print()
-        #print()
-    end = time.time() - start
+    cnt = 0
 
-    #rb_tree.print()
-    #print()
+    try:
+        for i in range(99905):
+            rb_tree.delete_node(str(i))
+            cnt+=1
+    except:
+        print("Удалилось {}".format(cnt))
 
-    for i in range (9800):
-        rb_tree.delete_node(str(i))
+
     rb_tree.print_tree()
-
-
-
-    #rb_tree.remove(34)
-    #rb_tree.remove(str(24))
-
-    #start = time.time()
-    #cnt = 0
-    #try:
-    #    for i in range(10000):
-    #        rb_tree.remove(str(i))
-    #        cnt+=1
-    #except:
-    #    print("Ошибка блин")
-    #end = time.time() - start
-    #print("Удалось удалить {} элементов".format(cnt))
-    #print("Removing elements from tree table: {}".format(end))
-    #rb_tree.print_tree()
 
 
 
