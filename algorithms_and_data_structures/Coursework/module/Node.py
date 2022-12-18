@@ -1,6 +1,7 @@
 class Node():
     def __init__(self, val, data, color = 1, left=None, right=None, parent=None):
         self.val = hash(val)
+        self.key = val
         self.data = data
         self.parent = parent
         self.left = left

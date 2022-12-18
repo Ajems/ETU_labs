@@ -71,7 +71,7 @@ class RBTree:
             else:                                         # if parent is left child of its parent
                 uncle = node.parent.parent.right                 # Right child of grandparent
                 if uncle.color == 1:                          # if color of right child of grandparent i.e, uncle node is red
-                    uncle.color = 0                           # Set color of childs as black
+                    uncle.color = 0                           # Set color of child as black
                     node.parent.color = 0
                     node.parent.parent.color = 1             # set color of grandparent as Red
                     node = node.parent.parent                   # Repeat algo on grandparent to remove conflicts
@@ -160,7 +160,7 @@ class RBTree:
             x = tmp.left                                      # Assign left child of tmp to x
             self.__rb_transplant ( tmp , tmp.left )             # Transplant Node to be deleted with x
         else :                                              # If tmp has both the child nodes
-            y = self.minimum ( tmp.right )                    # Find minimum of the right sub tree
+            y = self.minimum ( tmp.right )                    # Find minimum of the right subtree
             y_original_color = y.color                      # Store color of y
             x = y.right
             if y.parent == tmp :                              # If y is child of tmp
@@ -253,28 +253,5 @@ class RBTree:
             node = node.left
         return node
 
-    # Function to call print
-    def print_tree ( self ) :
+    def print ( self ) :
         self.__printCall ( self.root , "" , True )
-
-
-if __name__ == "__main__":
-    bst = RBTree()
-
-    bst.insert(10)
-    bst.insert(20)
-    bst.insert(30)
-    bst.insert(5)
-    bst.insert(4)
-    bst.insert(2)
-
-    bst.print_tree()
-
-    print("\nAfter deleting an element")
-    bst.remove(2)
-    bst.print_tree()
-    print("\nAfter deleting an element")
-
-
-    bst.remove(5)
-    bst.print_tree()
