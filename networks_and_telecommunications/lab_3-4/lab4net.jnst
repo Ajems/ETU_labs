@@ -1,0 +1,327 @@
+Router3
+GuiRouter
+360,116
+true
+3
+cua0|1|null|100.00
+eth0|0|Hub3(eth2) - Router3(eth0)|100.0|5C:BC:16:3C:C0:52|true
+eth1|0|Router3(eth1) - Hub4(eth4)|100.0|B9:6E:35:61:30:7F|true
+#config
+hostname Router3
+no interface eth1 shutdown
+no interface eth0 shutdown
+clock set 00:00:00 1 1 1970
+username root javanetsim
+router ospf area0
+#endconfig
+#data
+vlan.dat
+1
+
+#enddata
+Router2
+GuiRouter
+274,194
+true
+3
+cua0|1|null|100.00
+eth0|0|Hub2(eth2) - Router2(eth0)|100.0|6B:86:18:83:B2:13|true
+eth1|0|Router2(eth1) - Hub4(eth3)|100.0|BC:B6:C0:BD:2C:B2|true
+#config
+hostname Router2
+no interface eth1 shutdown
+no interface eth0 shutdown
+clock set 00:00:00 1 1 1970
+username root javanetsim
+router ospf area0
+#endconfig
+#data
+vlan.dat
+1
+
+#enddata
+Router1
+GuiRouter
+185,117
+true
+3
+cua0|1|null|100.00
+eth0|0|Hub1(eth2) - Router1(eth0)|100.0|AA:97:7F:64:67:A5|true
+eth1|0|Router1(eth1) - Hub4(eth2)|100.0|29:86:9E:60:8D:7F|true
+#config
+hostname Router1
+no interface eth1 shutdown
+no interface eth0 shutdown
+clock set 00:00:00 1 1 1970
+username root javanetsim
+router ospf area0
+#endconfig
+#data
+vlan.dat
+1
+
+#enddata
+Hub4
+GuiHub
+274,117
+true
+5
+eth0|0|PC7(eth0) - Hub4(eth0)|100.0|#|false
+eth1|0|PC8(eth0) - Hub4(eth1)|100.0|#|false
+eth2|0|Router1(eth1) - Hub4(eth2)|100.0|#|false
+eth3|0|Router2(eth1) - Hub4(eth3)|100.0|#|false
+eth4|0|Router3(eth1) - Hub4(eth4)|100.0|#|false
+#config
+#endconfig
+#data
+#enddata
+Hub3
+GuiHub
+450,114
+true
+5
+eth0|0|PC5(eth0) - Hub3(eth0)|100.0|#|false
+eth1|0|PC6(eth0) - Hub3(eth1)|100.0|#|false
+eth2|0|Hub3(eth2) - Router3(eth0)|100.0|#|false
+eth3|0|null|100.00|#|false
+eth4|0|null|100.00|#|false
+#config
+#endconfig
+#data
+#enddata
+Hub2
+GuiHub
+274,278
+true
+5
+eth0|0|PC3(eth0) - Hub2(eth0)|100.0|#|false
+eth1|0|PC4(eth0) - Hub2(eth1)|100.0|#|false
+eth2|0|Hub2(eth2) - Router2(eth0)|100.0|#|false
+eth3|0|null|100.00|#|false
+eth4|0|null|100.00|#|false
+#config
+#endconfig
+#data
+#enddata
+Hub1
+GuiHub
+93,118
+true
+5
+eth0|0|PC1(eth0) - Hub1(eth0)|100.0|#|false
+eth1|0|PC2(eth0) - Hub1(eth1)|100.0|#|false
+eth2|0|Hub1(eth2) - Router1(eth0)|100.0|#|false
+eth3|0|null|100.00|#|false
+eth4|0|null|100.00|#|false
+#config
+#endconfig
+#data
+#enddata
+PC8
+GuiPC
+332,20
+true
+3
+cua0|1|null|100.00
+eth0|0|PC8(eth0) - Hub4(eth1)|100.0|44:8A:59:80:37:98|true
+wrl0|2|null|100.00|47:5D:C1:71:7D:34|true
+#config
+hostname PC8
+interface wrl0 bssid 47:5D:C1:71:7D:34
+interface wrl0 ssid default
+interface wrl0 channel 1
+interface wrl0 station-role client
+interface wrl0 authentication open
+no interface wrl0 shutdown
+no interface eth0 shutdown
+clock set 00:00:00 1 1 1970
+username root javanetsim
+router ospf area0
+#endconfig
+#data
+vlan.dat
+1
+
+#enddata
+PC7
+GuiPC
+215,22
+true
+3
+cua0|1|null|100.00
+eth0|0|PC7(eth0) - Hub4(eth0)|100.0|28:54:39:76:6B:12|true
+wrl0|2|null|100.00|C7:63:94:53:AA:43|true
+#config
+hostname PC7
+interface wrl0 bssid C7:63:94:53:AA:43
+interface wrl0 ssid default
+interface wrl0 channel 1
+interface wrl0 station-role client
+interface wrl0 authentication open
+no interface wrl0 shutdown
+no interface eth0 shutdown
+clock set 00:00:00 1 1 1970
+username root javanetsim
+router ospf area0
+#endconfig
+#data
+vlan.dat
+1
+
+#enddata
+PC6
+GuiPC
+523,162
+true
+3
+cua0|1|null|100.00
+eth0|0|PC6(eth0) - Hub3(eth1)|100.0|12:51:2A:38:78:8D|true
+wrl0|2|null|100.00|68:81:7C:C2:28:14|true
+#config
+hostname PC6
+interface wrl0 bssid 68:81:7C:C2:28:14
+interface wrl0 ssid default
+interface wrl0 channel 1
+interface wrl0 station-role client
+interface wrl0 authentication open
+no interface wrl0 shutdown
+no interface eth0 shutdown
+clock set 00:00:00 1 1 1970
+username root javanetsim
+router ospf area0
+#endconfig
+#data
+vlan.dat
+1
+
+#enddata
+PC5
+GuiPC
+516,62
+true
+3
+cua0|1|null|100.00
+eth0|0|PC5(eth0) - Hub3(eth0)|100.0|3D:1B:B9:BF:77:6B|true
+wrl0|2|null|100.00|95:9C:AF:88:7C:89|true
+#config
+hostname PC5
+interface wrl0 bssid 95:9C:AF:88:7C:89
+interface wrl0 ssid default
+interface wrl0 channel 1
+interface wrl0 station-role client
+interface wrl0 authentication open
+no interface wrl0 shutdown
+no interface eth0 shutdown
+clock set 00:00:00 1 1 1970
+username root javanetsim
+router ospf area0
+#endconfig
+#data
+vlan.dat
+1
+
+#enddata
+PC4
+GuiPC
+343,277
+true
+3
+cua0|1|null|100.00
+eth0|0|PC4(eth0) - Hub2(eth1)|100.0|C3:7B:9B:90:54:62|true
+wrl0|2|null|100.00|37:7C:BE:7B:96:C2|true
+#config
+hostname PC4
+interface wrl0 bssid 37:7C:BE:7B:96:C2
+interface wrl0 ssid default
+interface wrl0 channel 1
+interface wrl0 station-role client
+interface wrl0 authentication open
+no interface wrl0 shutdown
+no interface eth0 shutdown
+clock set 00:00:00 1 1 1970
+username root javanetsim
+router ospf area0
+#endconfig
+#data
+vlan.dat
+1
+
+#enddata
+PC3
+GuiPC
+200,277
+true
+3
+cua0|1|null|100.00
+eth0|0|PC3(eth0) - Hub2(eth0)|100.0|49:5F:83:87:95:18|true
+wrl0|2|null|100.00|3C:63:7E:7D:60:9A|true
+#config
+hostname PC3
+interface wrl0 bssid 3C:63:7E:7D:60:9A
+interface wrl0 ssid default
+interface wrl0 channel 1
+interface wrl0 station-role client
+interface wrl0 authentication open
+no interface wrl0 shutdown
+no interface eth0 shutdown
+clock set 00:00:00 1 1 1970
+username root javanetsim
+router ospf area0
+#endconfig
+#data
+vlan.dat
+1
+
+#enddata
+PC2
+GuiPC
+43,184
+true
+3
+cua0|1|null|100.00
+eth0|0|PC2(eth0) - Hub1(eth1)|100.0|42:24:7F:74:6C:A6|true
+wrl0|2|null|100.00|2C:15:4B:49:19:4A|true
+#config
+hostname PC2
+interface wrl0 bssid 2C:15:4B:49:19:4A
+interface wrl0 ssid default
+interface wrl0 channel 1
+interface wrl0 station-role client
+interface wrl0 authentication open
+no interface wrl0 shutdown
+no interface eth0 shutdown
+clock set 00:00:00 1 1 1970
+username root javanetsim
+router ospf area0
+#endconfig
+#data
+vlan.dat
+1
+
+#enddata
+PC1
+GuiPC
+34,76
+true
+3
+cua0|1|null|100.00
+eth0|0|PC1(eth0) - Hub1(eth0)|100.0|60:39:1B:43:33:12|true
+wrl0|2|null|100.00|4D:52:97:BD:61:B9|true
+#config
+hostname PC1
+interface wrl0 bssid 4D:52:97:BD:61:B9
+interface wrl0 ssid default
+interface wrl0 channel 1
+interface wrl0 station-role client
+interface wrl0 authentication open
+no interface wrl0 shutdown
+no interface eth0 shutdown
+clock set 00:00:00 1 1 1970
+username root javanetsim
+router ospf area0
+#endconfig
+#data
+vlan.dat
+1
+
+#enddata
