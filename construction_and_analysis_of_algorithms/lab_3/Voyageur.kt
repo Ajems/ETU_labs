@@ -66,7 +66,11 @@ class Matrix(private val size: Int): Cloneable {
     }
 
     fun includeRowCol(row: Int, col: Int){
-        this[col, row] = Int.MAX_VALUE
+        if (col in data.keys){
+            if (row in data[col]!!.keys){
+                this[col, row] = Int.MAX_VALUE
+            }
+        }
         data.remove(row)
         for (keys in data.keys){
             data[keys]?.remove(col)
@@ -79,7 +83,6 @@ class Matrix(private val size: Int): Cloneable {
         route+=Pair(col, row)
     }
 
-    //TODO баг один элемент подсчитывается несколько раз
     fun countLow(flag: Boolean): Pair<Int, ArrayList<Triple<Int, Int, Int>>>{
         var countLow = 0
         val minIndexes = ArrayList<Triple<Int, Int, Int>>()
@@ -159,8 +162,9 @@ class Matrix(private val size: Int): Cloneable {
             print("Проверка на тяжелый ноль ${it.first}:${it.second} = ")
             this[it.first, it.second] = Int.MAX_VALUE
             currentHeavy = this.countLow(false).first
+            if (currentHeavy < 0) currentHeavy = 0
             println(currentHeavy)
-            if (currentHeavy > mostHeavyZero.third){
+            if (currentHeavy >= mostHeavyZero.third){
                 mostHeavyZero = Triple(it.first, it.second, currentHeavy)
             }
             this[it.first, it.second] = 0
@@ -175,7 +179,7 @@ class Matrix(private val size: Int): Cloneable {
 
     fun getWay(start: Int): MutableList<Int>{
         val way = mutableListOf<Int>()
-        way.add(route.first().first)
+        way.add(start)
         val fromExist = mutableListOf<Int>()
         val toExist = mutableListOf<Int>()
 
@@ -186,38 +190,19 @@ class Matrix(private val size: Int): Cloneable {
             fromExist.add(citysPair.first)
             toExist.add(citysPair.second)
         }
-        //добавить путь которого не было
-        /*
-        for (notExistFrom in 1..size){
-            if (notExistFrom !in fromExist){
-                for (notExistTo in 1..size){
-                    if (notExistTo !in toExist){
-                        mapRoute[notExistFrom] = notExistTo
-                    }
-                }
-            }
-        }
-         */
         println(mapRoute)
 
         //построить путь
-        for (i in 1..route.size){
+        while(way.first() != way.last() || way.size<2){
             if (way.last() in mapRoute)
                 way.add(mapRoute[way.last()]!!)
             else{
-                var flag = false
-                for (city in data[way.last()]!!.values){
-                    if (city in data.keys){
-                        way.add(city)
-                        flag = true
-                    }
-                }
-                if (!flag){
-                    println("data[way.last()] is ${data[way.last()]}")
-                    for (city in data[way.last()]!!.keys){
-                        println("key ${way.last()} inner key ${city}")
-                        if (data[way.last()]?.get(city)!! < Int.MAX_VALUE){
-                            way.add(city)
+                for (notExistFrom in 1..size){
+                    if (notExistFrom !in fromExist){
+                        for (notExistTo in 1..size){
+                            if (notExistTo !in toExist){
+                                mapRoute[notExistFrom] = notExistTo
+                            }
                         }
                     }
                 }
@@ -238,13 +223,14 @@ class Matrix(private val size: Int): Cloneable {
 }
 
 fun main(args: Array<String>) {
-    val file = File("src/main/resources/matrix4.txt")
+    val file = File("src/main/resources/goodexample/matrix2.txt")
     var startPoint: Int
     var size: Int
     var graph: Matrix
     file.bufferedReader().use { reader ->
         startPoint = reader.readLine().toInt()
         size = reader.readLine().toInt()
+        require(startPoint in 1..size)
         graph = Matrix(size)
         reader.lines().forEach{ line ->
             val (i, j, distance) = line.split(" ").map{it.toInt()}
