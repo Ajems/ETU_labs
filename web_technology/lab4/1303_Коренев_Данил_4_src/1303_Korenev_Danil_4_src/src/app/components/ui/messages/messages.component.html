@@ -1,0 +1,20 @@
+<mat-card class="messages-card">
+
+  <mat-card-header class="message-header">
+    <mat-card-title *ngIf="companionName">{{ companionName }}</mat-card-title>
+  </mat-card-header>
+
+  <mat-card-content class="messages-list" #messagesList>
+    <div class="messages-container">
+      <app-message *ngFor="let message of messages" [message]="message"></app-message>
+    </div>
+  </mat-card-content>
+
+  <mat-card-actions class="message-actions">
+    <mat-form-field class="message-input">
+      <input matInput [(ngModel)]="newMessage" placeholder="Введите сообщение">
+    </mat-form-field>
+    <button class="send-button" mat-raised-button color="primary" (click)="sendMessage()">Отправить</button>
+  </mat-card-actions>
+
+</mat-card>

@@ -1,0 +1,27 @@
+<div class="container">
+  <div class="column-left">
+    <mat-card class="user-preview-container">
+      <mat-card-header class="user-name-container">
+        <mat-card-title>{{ lName }} {{ fName }}</mat-card-title>
+      </mat-card-header>
+      <div class="avatar-container">
+        <img class="avatar" [src]="avatarUrl || 'https://via.placeholder.com/300'" alt="User Avatar">
+      </div>
+      <mat-card-content class="birthday-container">
+        <div>Birthday: {{ birthday }}</div>
+      </mat-card-content>
+      <mat-card-actions class="user-buttons">
+        <button mat-raised-button color="primary" id="friends-button" (click)="redirectFriends()">Friends</button>
+        <button mat-raised-button color="primary" id="send-message-button" (click)="redirectSendMessage()">Send message</button>
+        <button *ngIf="isFriend === false" mat-raised-button color="primary" id="add-friend-button" (click)="sendFriendRequest()">Add friend</button>
+        <button *ngIf="isFriend === true" mat-raised-button color="primary" id="remove-friend-button" (click)="refusalFriendRequest()">Remove friend</button>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+
+  <div class="column-right">
+    <div *ngIf="userId" class="post-container">
+      <app-news [userId]="userId"></app-news>
+    </div>
+  </div>
+</div>

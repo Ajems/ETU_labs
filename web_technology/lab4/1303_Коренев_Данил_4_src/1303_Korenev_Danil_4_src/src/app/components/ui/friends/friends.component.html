@@ -1,0 +1,3 @@
+<div *ngIf="userId" class="friends-list">
+  <app-user-preview *ngFor="let friend of friendsList" [user]="friend"></app-user-preview>
+</div>

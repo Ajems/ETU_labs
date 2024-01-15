@@ -1,0 +1,12 @@
+.friends-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  gap: 20px;
+}
+
+@media (max-width: 744px) {
+  .friends-list {
+    flex-direction: column;
+  }
+}

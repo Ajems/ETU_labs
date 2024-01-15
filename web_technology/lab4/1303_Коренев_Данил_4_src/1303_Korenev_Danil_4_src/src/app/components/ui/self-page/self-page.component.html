@@ -1,0 +1,40 @@
+<div class="container">
+  <div class="column-left">
+    <mat-card class="user-preview-container">
+      <mat-card-header class="user-name-container">
+        <mat-card-title class="user-name" (click)="copyUrlPage()">{{ lName }} {{ fName }}</mat-card-title>
+      </mat-card-header>
+      <div class="avatar-container">
+        <img class="avatar" [src]="avatarUrl || 'https://via.placeholder.com/300'" alt="User Avatar">
+      </div>
+
+      <button mat-icon-button class="edit-avatar-button" (click)="editAvatar()">
+        <mat-icon>edit</mat-icon>
+      </button>
+
+      <mat-card-content class="user-info-container">
+        <div>Name: {{ lName }} {{ fName }}</div>
+        <div>Birthday: {{ birthday }}</div>
+        <div>Email: {{ email }}</div>
+      </mat-card-content>
+
+      <mat-card-actions class="user-buttons">
+        <input *ngIf="isEditingAvatar" type="file" (change)="onFileSelected($event)">
+        <button *ngIf="isEditingAvatar" color="primary" mat-raised-button (click)="uploadAvatar()">Save</button>
+        <button *ngIf="isEditingAvatar" color="primary" mat-raised-button (click)="cancelEditingAvatar()">Cancel</button>
+        <div class="space"></div>
+        <button mat-raised-button color="primary" id="friends-button" (click)="redirectFriends()">Friends</button>
+        <button *ngIf="isAdmin" color="primary" mat-raised-button (click)="redirectAdminPage()">Admin panel</button>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+
+  <div class="column-right">
+    <div *ngIf="userId" class="publish-post">
+      <app-add-post [userId]="userId"></app-add-post>
+    </div>
+    <div *ngIf="userId" class="post-container">
+      <app-news [userId]="userId"></app-news>
+    </div>
+  </div>
+</div>

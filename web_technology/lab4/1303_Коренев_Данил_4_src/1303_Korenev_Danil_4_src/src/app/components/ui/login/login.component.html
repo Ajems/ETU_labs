@@ -1,0 +1,28 @@
+<div class="container">
+  <h2>Вход в социальную сеть</h2>
+
+    <form>
+      <div class="form-field">
+        <mat-form-field class="form-field" appearance="fill">
+          <mat-label>Электронная почта</mat-label>
+          <input matInput placeholder="Введите вашу почту" required [formControl]="email">
+          <mat-error *ngIf="email.invalid">{{getEmailErrorMessage()}}</mat-error>
+        </mat-form-field>
+      </div>
+
+      <div class="form-field">
+        <mat-form-field class="form-field" appearance="fill">
+          <mat-label>Пароль</mat-label>
+          <input matInput type="password" placeholder="Введите ваш пароль" required [formControl]="password">
+          <mat-error *ngIf="password.invalid">{{getPasswordErrorMessage()}}</mat-error>
+        </mat-form-field>
+      </div>
+
+      <button mat-raised-button color="primary" (click)="tryLogin()">Войти</button>
+    </form>
+
+  <div class="register-link">
+    Doesn't have yet account? <button mat-button color="primary" (click)="redirectToRegister()">Register</button>
+  </div>
+
+</div>

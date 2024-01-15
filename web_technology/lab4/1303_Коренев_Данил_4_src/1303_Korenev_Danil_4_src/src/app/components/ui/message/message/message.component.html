@@ -1,0 +1,11 @@
+<mat-card class="message-card" [ngClass]="{ 'align-right': message!.alignRight }">
+  <mat-card-header>
+    <div class="message-header">
+      <span class="owner-name">{{ message?.ownerName }}</span>
+      <span class="date-created">{{ message?.dateCreated | date:'medium' }}</span>
+    </div>
+  </mat-card-header>
+  <mat-card-content class="message-body">
+    {{ message?.content }}
+  </mat-card-content>
+</mat-card>

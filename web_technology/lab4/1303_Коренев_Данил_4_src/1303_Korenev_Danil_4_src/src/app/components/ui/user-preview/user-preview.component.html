@@ -1,0 +1,8 @@
+<mat-card class="user-container" (click)="redirectToUserPage()">
+  <mat-card-content class="user-preview">
+    <div class="avatar-container">
+      <img class="avatar" [src]="avatarUrl || 'https://via.placeholder.com/300'">
+    </div>
+    <span class="username">{{ user?.lName + " " + user?.fName }}</span>
+  </mat-card-content>
+</mat-card>

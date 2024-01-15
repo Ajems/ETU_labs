@@ -1,0 +1,13 @@
+<mat-card class="post-card">
+  <mat-card-header class="post-card-header">
+    <mat-card-title class="post-card-title">
+      {{ post!.ownerName }}
+    </mat-card-title>
+    <div class="post-card-date" *ngIf="post">
+      {{ post!.dateCreated | date: "dd.MM.yyyy в HH.mm" }}
+    </div>
+  </mat-card-header>
+  <mat-card-content class="post-card-content">
+    {{ post!.content }}
+  </mat-card-content>
+</mat-card>

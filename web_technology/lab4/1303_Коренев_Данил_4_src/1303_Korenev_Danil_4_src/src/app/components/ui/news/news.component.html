@@ -1,0 +1,10 @@
+<div *ngIf="userId" class="post-container">
+  <div *ngIf="newsList.length === 0">
+    <p>News list empty</p>
+  </div>
+
+  <div class="newsList" *ngFor="let news of newsList">
+    <app-post [post]="news"></app-post>
+  </div>
+</div>
+

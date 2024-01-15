@@ -1,0 +1,48 @@
+.messages-card {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  height: 86vh;
+}
+
+.message-header {
+  font-size: 28px;
+  color: white;
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
+.messages-list {
+  flex-grow: 1;
+  overflow-y: auto;
+  background-color: #333;
+}
+
+.messages-list::-webkit-scrollbar {
+  display: none;
+}
+
+body::-webkit-scrollbar {
+  display: none;
+}
+
+.message-actions {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  position: sticky;
+  bottom: 0;
+  background-color: #aaa;
+  padding: 28px 8px 8px;
+  z-index: 1;
+}
+
+.message-input {
+  flex-grow: 1;
+  margin-right: 8px;
+}
+
+.send-button {
+  z-index: 2;
+}

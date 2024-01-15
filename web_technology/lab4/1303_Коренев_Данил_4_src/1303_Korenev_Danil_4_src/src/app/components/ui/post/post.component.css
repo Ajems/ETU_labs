@@ -1,0 +1,41 @@
+.post-card {
+  width: auto;
+  margin: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.post-card-header {
+  background-color: #DDD;
+  padding: 12px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.post-card-date {
+  white-space: nowrap;
+}
+
+.post-card-title {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.post-card-content {
+  padding: 16px;
+  font-size: 24px;
+  line-height: 1.5;
+  color: #EEE;
+  word-wrap: break-word;
+}
+
+.post-card-date {
+  color: #333;
+  font-size: 14px;
+  white-space: nowrap
+}
+
+.post-card-title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}

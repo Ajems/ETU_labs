@@ -1,0 +1,61 @@
+<div class="container">
+  <h2>Регистрация в социальной сети</h2>
+
+  <form>
+
+    <div class="form-field">
+      <mat-form-field class="form-field" appearance="fill">
+        <mat-label>Фамилия</mat-label>
+        <input matInput placeholder="Введите вашу фамилию" [formControl]="lName" name="lName">
+        <mat-error *ngIf="lName.invalid">{{getErrorMessage(lName, "Фамилия")}}</mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="form-field">
+      <mat-form-field class="form-field" appearance="fill">
+        <mat-label>Имя</mat-label>
+        <input matInput placeholder="Введите ваше имя" [formControl]="fName" name="fName">
+        <mat-error *ngIf="fName.invalid">{{getErrorMessage(fName, "Имя")}}</mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="form-field">
+      <mat-form-field class="form-field" appearance="fill">
+        <mat-label>Отчество</mat-label>
+        <input matInput placeholder="Введите ваше отчество" [formControl]="mName" name="mName">
+        <mat-error *ngIf="mName.invalid">{{getErrorMessage(mName, "Отчество")}}</mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="form-field">
+      <mat-form-field class="form-field" appearance="fill">
+        <mat-label>Дата рождения</mat-label>
+        <input matInput type="date" placeholder="Введите вашу дату рождения" required [formControl]="birthday" name="birthday">
+        <mat-error *ngIf="birthday.invalid">{{getErrorMessage(birthday, "Дата рождения")}}</mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="form-field">
+      <mat-form-field class="form-field" appearance="fill">
+        <mat-label>Электронная почта</mat-label>
+        <input matInput placeholder="Введите вашу почту"[formControl]="email" name="email">
+        <mat-error *ngIf="email.invalid">{{getErrorMessage(email, "Email")}}</mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="form-field">
+      <mat-form-field class="form-field" appearance="fill">
+        <mat-label>Пароль</mat-label>
+        <input matInput placeholder="Введите ваш пароль" type="password" [formControl]="password" name="password">
+        <mat-error *ngIf="password.invalid">{{getErrorMessage(password, "Пароль")}}</mat-error>
+      </mat-form-field>
+    </div>
+
+    <button mat-raised-button color="primary" (click)="registerUser()">Зарегистрироваться</button>
+
+  </form>
+
+  <div class="login-link">
+    Already have an account? <button mat-button color="primary" (click)="redirectToLogin()">Login</button>
+  </div>
+</div>
