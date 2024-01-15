@@ -1,0 +1,42 @@
+doctype html
+
+html
+    head
+        title #{book.title}
+        link(href="/stylesheets/currentBook.css" rel="stylesheet")
+        link(rel="stylesheet" href="/fontawesome/css/all.css")
+    body
+        include editBookDialog
+        include reserveBookDialog
+        include returnBookDialog
+        include reserveInfo
+        button(class="back-button", id="backButton")
+            i.fas.fa-arrow-left
+            | Назад
+        div.container
+            div.book-details
+                img(src=`/covers/${book.id}.jpg` onerror="this.onerror=null; this.src='/covers/0.jpg'", alt='Обложка книги')
+                div.book-info(id=book.id)
+                    h1 #{book.title}
+                    p Автор: #{book.author}
+                    p Год выпуска: #{book.year}
+                    p #{book.dateReserve ? `Выдана ${book.dateReserve}` : "Доступна к выдаче"}
+                    button(type="button" class="edit-button")
+                        | Редактировать
+                        i.fas.fa-edit
+                    if (book.dateReserve && book.reserverName)
+                        button(type="button" class="return-button")
+                            | Вернуть
+                            i.fas.fa-undo
+                        p Дата возврата: #{book.dateReturn}
+                        p.reserverName Имя пользователя: #{book.reserverName}
+                    else
+                        button(type="button" class="reserve-button")
+                            | Выдать читателю
+                            i.fas.fa-user-plus
+
+script(src="/javascripts/currentBook/editBook.js" type="module" defer=)
+script(src="/javascripts/currentBook/reserveBook.js" type="module" defer=)
+script(src="/javascripts/currentBook/returnBook.js" type="module" defer=)
+script(src="/javascripts/currentBook/reserverInfoDialog.js" type="module" defer=)
+script(src="/javascripts/currentBook/backButton.js" type="module" defer=)

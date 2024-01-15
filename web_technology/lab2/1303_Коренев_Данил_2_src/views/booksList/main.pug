@@ -1,0 +1,21 @@
+doctype html
+
+html
+    head
+        title Книги
+        link(href="/stylesheets/library.css" rel="stylesheet")
+        link(rel="stylesheet" href="/fontawesome/css/all.css")
+    body
+        h1 Список книг библиотеки
+        include sort.pug
+        include functional.pug
+        .book-list
+            include list.pug
+        include addBookDialog
+        include confirmDialog
+
+
+script(src="/javascripts/bookList/openBookPage.js" type="module" defer=)
+script(src="/javascripts/bookList/openAddBookDialog.js" type="module" defer=)
+script(src="/javascripts/bookList/deleteBook.js" type="module" defer=)
+script(src="/javascripts/bookList/filter.js" type="module" defer=)

@@ -1,0 +1,9 @@
+dialog.dialog-add
+    form(enctype="multipart/form-data")
+        input(type="text" id="bookTitle" placeholder="Название книги")
+        input(type="text" id="bookAuthor" placeholder="Автор книги")
+        input(type="number" id="bookYear" placeholder="Год выпуска")
+        input(type="file" id="bookImage" accept="image/*")
+        button(type="button" id="saveButton")
+            | Сохранить
+            i.fas.fa-save

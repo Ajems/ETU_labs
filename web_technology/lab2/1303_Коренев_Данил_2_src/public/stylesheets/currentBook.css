@@ -1,0 +1,352 @@
+@import '@fortawesome/fontawesome-free/css/all.css';
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.container {
+    max-width: 80%;
+    margin: 0 auto;
+    display: inline-block;
+    justify-content: space-around;
+    margin-top: 50px;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.book-details {
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+}
+
+.book-details img{
+    max-height: 500px;
+    height: auto;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.book-info {
+    margin-left: 20px;
+}
+
+h1 {
+    font-size: 28px;
+    margin-bottom: 10px;
+}
+
+p {
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+
+.book-info .return-button,
+.book-info .reserve-button,
+.book-info .edit-button {
+    display: block;
+    width: 100%;
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 5px;
+    margin-top: 10px;
+    transition: background-color 0.3s ease;
+}
+
+.book-info .return-button:hover,
+.book-info .reserve-button:hover,
+.book-info .edit-button:hover {
+    background-color: #45a049;
+}
+
+button.edit-button i.fas.fa-edit {
+    font-size: 14px;
+    margin-left: 10px;
+}
+
+button.reserve-button i.fas.fa-user-plus {
+    font-size: 14px;
+    margin-left: 10px;
+}
+
+button.return-button i.fas.fa-undo {
+    font-size: 14px;
+    margin-left: 10px;
+}
+
+.dialog-reserve {
+    position: fixed;
+    background-color: white;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 300px;
+    z-index: 2;
+}
+
+.calendar-container {
+    margin-bottom: 20px;
+}
+
+#datePicker {
+    width: calc(100% - 20px);
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-right: 10px;
+}
+
+.button-container {
+    display: flex;
+    justify-content: space-between;
+}
+
+.confirm-reserve-button {
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.confirm-reserve-button:hover {
+    background-color: #45a049;
+}
+
+.cancel-reserve-button {
+    background-color: #f44336;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.cancel-reserve-button:hover {
+    background-color: #ff4136;
+}
+
+.user-container input[type="text"] {
+    width: calc(100% - 20px);
+    padding: 10px;
+    margin-bottom: 20px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-right: 10px;
+}
+
+.dialog-return {
+    position: fixed;
+    background-color: white;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 300px;
+    text-align: center;
+    z-index: 4;
+}
+
+.dialog-return h2 {
+    font-size: 1.2em;
+    margin-bottom: 10px;
+}
+
+.dialog-return p {
+    font-size: 1em;
+    margin-bottom: 20px;
+}
+
+.dialog-return .buttons {
+    display: flex;
+    justify-content: center;
+}
+
+.dialog-return .buttons button {
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 1em;
+    cursor: pointer;
+    border-radius: 5px;
+    margin: 0 10px;
+    transition: background-color 0.3s ease;
+}
+
+.dialog-return .buttons .confirm-return-button {
+    background-color: #4caf50;
+}
+
+.dialog-return .buttons .confirm-return-button:hover {
+    background-color: #45a049;
+}
+
+.dialog-return .buttons .cancel-return-button {
+    background-color: #ff3333;
+}
+
+.dialog-return .buttons .cancel-return-button:hover {
+    background-color: #ff0000;
+}
+
+.dialog-edit {
+    position: fixed;
+    overflow: visible;
+    background-color: white;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 300px;
+    z-index: 2;
+}
+
+.dialog-edit form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.dialog-edit input[type="text"],
+.dialog-edit input[type="number"] {
+    width: calc(100% - 20px);
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-right: 10px;
+}
+
+.dialog-edit button#saveButton {
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.dialog-edit button#saveButton i.fas.fa-save {
+    font-size: 16px;
+    margin-left: 10px;
+}
+
+.dialog-edit button#saveButton:hover {
+    background-color: #45a049;
+}
+
+.dialog-edit button#cancelEditButton {
+    background-color: #ff3333;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.dialog-edit button#cancelEditButton i.fas.fa-cancel {
+    font-size: 16px;
+    margin-left: 10px;
+}
+
+.dialog-edit button#cancelEditButton:hover {
+    background-color: #ff0000;
+}
+
+.dialog-edit input:focus {
+    outline: 2px solid #4caf50;
+}
+
+.invalid-input {
+    border: 2px solid red;
+    background-color: #FFECEC;
+}
+
+.dialog-reserver {
+    position: fixed;
+    overflow: visible;
+    background-color: white;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 300px;
+    z-index: 5;
+}
+
+.dialog-content label,
+.dialog-content input {
+    display: block;
+    margin-bottom: 10px;
+}
+
+.dialog-content input {
+    width: calc(100% - 20px);
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.dialog-content .close-button {
+    background-color: #ff3333;
+    width: 100%;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.dialog-content .close-button:hover {
+    background-color: #ff0000;
+}
+
+p.reserverName {
+    cursor: pointer;
+}
+
+.back-button {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    background-color: #4caf50;
+    border-radius: 5px;
+    color: white;
+    border: none;
+    padding: 10px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.back-button:hover {
+    background-color: #45a049;
+}
+
+button.back-button i.fas.fa-arrow-left {
+    font-size: 16px;
+    margin-right: 10px;
+}

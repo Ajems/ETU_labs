@@ -1,0 +1,14 @@
+.book-container
+    button(type="button" class="delete-button" name=book.id)
+        | Удалить
+        i.fas.fa-trash
+    .bookWrapper-container(id=book.id)
+        img.book-cover(src=`/covers/${book.id}.jpg` onerror="this.onerror=null; this.src='/covers/0.jpg'", alt='Book Cover')
+        .book-details
+            h2.book-title= book.title
+            p.book-author Автор: #{book.author}
+            p.book-year Год: #{book.year}
+            if (book.dateReturn && book.reserverName)
+                p.book-reseved #{`Выдана ${book.reserverName} до ${book.dateReturn}`}
+            else
+                p.book-reseved #{`Доступна к выдаче`}
