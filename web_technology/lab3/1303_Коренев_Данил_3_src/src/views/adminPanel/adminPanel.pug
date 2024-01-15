@@ -1,0 +1,13 @@
+html
+    head
+        title Admin Panel
+        script(src="https://code.jquery.com/jquery-3.7.1.min.js")
+        link(rel="stylesheet" href="stylesheets/usersList.css")
+    body
+        h1.center-text Admin Panel
+        #user-list.center-content
+            each user in users
+                .user-preview-container
+                    include userPreview.pug
+
+script(src="/webpack/js/adminPanel.min.js")

@@ -1,0 +1,137 @@
+$main-color: #10232A
+$border-color: #B58863
+
+body
+  font-family: Helvetica, sans-serif
+  background: $main-color
+  //display: flex
+  //justify-content: center
+  //height: 100vh
+  margin: 10px
+
+.container
+  display: flex
+  height: 100vh
+
+.column-left
+  width: 40%
+  margin-right: 20px
+  max-width: 350px
+  min-width: 260px
+
+.user-preview-container
+  background: rgba(255, 255, 255, 0.1)
+  padding: 10px
+  border-radius: 25px
+  border: 2px solid $border-color
+  backdrop-filter: blur(100px)
+  margin-right: 20px
+
+.user-preview-container
+  img
+    width: 100%
+    max-width: 100%
+    height: auto
+    object-fit: cover
+    border-radius: 20px
+
+.user-info
+  font-family: Helvetica, serif
+  font-size: 20px
+  color: #D3C3B9
+  padding-left: 15px
+
+  div
+    padding-top: 10px
+
+
+.userInfoButton
+  background: rgba(255, 255, 255, 0.1)
+  backdrop-filter: blur(100px)
+  border-radius: 25px
+  border: 2px solid $border-color
+  color: #D3C3B9
+  font-family: Helvetica, serif
+  font-size: 18px
+  margin-top: 20px
+  width: 320px
+  padding: 10px 20px
+  cursor: pointer
+  outline: none
+
+.column-right
+  width: 55%
+  display: flex
+  flex-direction: column
+  align-items: center
+  justify-content: flex-start
+  margin-right: 20px
+
+.post-container
+  max-width: 400px
+
+
+//DIALOG EDIT
+#edit-dialog
+  display: none
+
+#edit-dialog
+  display: none
+  text-align: center
+  color: #161616
+
+  form
+    margin: 20px 0
+
+  .ui-dialog-buttonset
+    margin-top: 20px
+
+  input[type="text"]
+    color: #161616
+    width: 100%
+    padding: 8px
+    margin-bottom: 10px
+    font-size: 16px
+
+//DIALOG CHANGE STATUS
+#status-dialog
+  display: none
+  background: rgba(255, 255, 255, 0.9)
+  padding: 20px
+  border-radius: 10px
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1)
+  text-align: center
+
+#status-dialog label
+  font-size: 18px
+
+#status-dialog select
+  width: 100%
+  padding: 10px
+  font-size: 16px
+  border: 1px solid #ccc
+  border-radius: 5px
+  outline: none
+  margin-top: 10px
+
+//DIALOG CHANGE ROLE
+#role-dialog
+  display: none
+  background: rgba(255, 255, 255, 0.9)
+  padding: 20px
+  border-radius: 10px
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1)
+  text-align: center
+
+#role-dialog label
+  font-size: 18px
+
+
+#role-dialog select
+  width: 100%
+  padding: 10px
+  font-size: 16px
+  border: 1px solid #ccc
+  border-radius: 5px
+  outline: none
+  margin-top: 10px

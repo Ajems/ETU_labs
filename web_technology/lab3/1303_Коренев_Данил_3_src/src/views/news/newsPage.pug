@@ -1,0 +1,16 @@
+html
+    head
+        title News
+        script(src="https://code.jquery.com/jquery-3.7.1.min.js")
+        script(src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js")
+        link(rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css")
+        link(rel="stylesheet" href="stylesheets/newsPage.css")
+        link(rel="stylesheet" href="stylesheets/post.css")
+    body
+        .post-container
+            if posts.length > 0
+                .posts
+                    each post in posts
+                        include ../userPage/post.pug
+            else
+                p No news available

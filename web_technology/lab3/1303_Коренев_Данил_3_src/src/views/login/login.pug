@@ -1,0 +1,16 @@
+doctype html
+html
+    head
+        title Admin Login
+        script(src="https://code.jquery.com/jquery-3.7.1.min.js")
+        script(src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js")
+        link(rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css")
+        link(rel="stylesheet" href="stylesheets/style.css")
+    body
+        .login-container
+            h2 Admin Login
+            input(type="text", name="username", id="loginUsername", placeholder="Username", required)
+            input(type="password", name="password", id="loginPassword", placeholder="Password", required)
+            input(type="button", value="Login", id="loginButton")
+
+script(src="/webpack/js/login.min.js")

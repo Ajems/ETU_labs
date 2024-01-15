@@ -1,0 +1,16 @@
+[
+  {
+    "id": "2",
+    "ownerId": "2",
+    "ownerName": "Dima Smirnov",
+    "content": "Привет, меня зовут Дима!",
+    "date": "2023-10-21T12:00:00.000Z"
+  },
+  {
+    "id": "4",
+    "ownerId": "2",
+    "ownerName": "Dima Smirnov",
+    "content": "Меня все еще зовут Дима",
+    "date": "2023-10-23T12:00:00.000Z"
+  }
+]

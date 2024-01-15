@@ -1,0 +1,33 @@
+.post {
+  font-family: Helvetica, sans-serif;
+  margin-top: 20px;
+  background: rgba(255, 255, 255, 0.1);
+  padding: 15px;
+  border-radius: 15px;
+  border: solid 2px #B58863;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  color: #D3C3B9;
+}
+
+.post h4 {
+  font-size: 18px;
+  margin-top: 0px;
+  margin-bottom: 10px;
+  color: #B58863;
+}
+
+.post div.content {
+  font-size: 16px;
+  margin-bottom: 10px;
+  color: #D3C3B9;
+}
+
+.post div.date {
+  font-size: 14px;
+  color: #D3C3B9;
+}
+
+p {
+  font-family: Helvetica, sans-serif;
+  color: #D3C3B9;
+}

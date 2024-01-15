@@ -1,0 +1,61 @@
+html
+    head
+        title #{user.data.lName + " " + user.data.fName}
+        script(src="https://code.jquery.com/jquery-3.7.1.min.js")
+        script(src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js")
+        link(rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css")
+        link(rel="stylesheet" href="stylesheets/userPageAdmin.css")
+        link(rel="stylesheet" href="stylesheets/post.css")
+    body
+        .container
+            .column-left
+                .user-preview-container
+                    img(src=`images/img${user.id}.png` onerror="this.src='images/img.png'")
+                    .user-info
+                        div Name: #{user.data.fName} #{user.data.lName}
+                        div Birthday: #{user.data.birthday}
+                        div Email: #{user.data.email}
+                button#friends-button(class="userInfoButton" data-user=`${user.id}`) Friends
+                button#news-button(class="userInfoButton" data-user=`${user.id}`) News
+                button#role-button(class="userInfoButton" data-user=`${user.id},${user.role.name}`) Change role
+                button#status-button(class="userInfoButton" data-user=`${user.id},${user.status.status}`) Change status
+                button#edit-button(class="userInfoButton" data-user=`${user.data.lName},${user.data.fName},${user.data.mName},${user.data.birthday},${user.data.email},${user.id}`) Edit
+            .column-right
+                .post-container
+                    if posts.length > 0
+                        .posts
+                            each post in posts
+                                include post.pug
+                    else
+                        p No posts available
+
+        #edit-dialog(style="display: none;")
+            form
+                label(for="editLName") Last Name:
+                input#editLName(type="text")
+                label(for="editFName") First Name:
+                input#editFName(type="text")
+                label(for="editMName") Middle Name:
+                input#editMName(type="text")
+                label(for="editBirthday") Birthday:
+                input#editBirthday(type="text")
+                label(for="editEmail") Email:
+                input#editEmail(type="text")
+
+        #status-dialog(style="display: none;")
+            label(for="status-select") Select Status:
+            select#status-select
+                option(value="unconfirmed", selected=user.status.status === 'unconfirmed') Unconfirmed
+                option(value="active", selected=user.status.status === 'active') Active
+                option(value="blocked", selected=user.status.status === 'blocked') Blocked
+
+        #role-dialog(style="display: none;")
+            label(for="role-select") Select Role:
+            select#role-select
+                option(value="admin", selected=user.role.name === 'admin') Admin
+                option(value="user", selected=user.role.name === 'user') User
+
+script(src="/webpack/js/userPageChange.min.js")
+script(src="/webpack/js/userRoleChange.min.js")
+script(src="/webpack/js/userStatusChange.min.js")
+script(src="/webpack/js/userPageRedirect.min.js")

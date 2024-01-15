@@ -1,0 +1,14 @@
+html
+    head
+        title #{user.data.fName}'s friends
+        script(src="https://code.jquery.com/jquery-3.7.1.min.js")
+        link(rel="stylesheet" href="stylesheets/usersList.css")
+    body
+        h1.center-text #{user.data.fName}'s friends
+        if friends.length > 0
+            #user-list.center-content
+                each friend in friends
+                    .user-preview-container
+                        include friendPreview.pug
+        else
+            p У #{user.data.fName} нет друзей
