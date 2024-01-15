@@ -1,0 +1,100 @@
+.Brokers {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.BrokersList {
+    margin-top: 20px;
+}
+
+.BrokersList table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.BrokersList th,
+.BrokersList td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: left;
+}
+
+.BrokersList th {
+    background-color: #f2f2f2;
+}
+
+.BrokersList button {
+    background-color: #e74c3c;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 8px 15px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.BrokersList button:hover {
+    background-color: #992d22;
+}
+
+.BrokersList td:not(:nth-child(2)):not(:nth-child(3)) {
+    font-weight: bold;
+    font-family: "Roboto Light", system-ui;
+    font-size: 16px;
+}
+
+.BrokersList td button {
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.BrokerFormContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.BrokerForm {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.BrokerForm {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.BrokerForm label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    font-family: "Roboto Light", system-ui;
+    font-size: 16px;
+}
+
+.BrokerForm input {
+    padding: 8px;
+    margin-bottom: 10px;
+    width: 200px;
+    font-size: 16px;
+}
+
+.BrokerForm br {
+    margin-bottom: 15px;
+}
+
+.BrokerButton {
+    background-color: #e74c3c;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.BrokerButton:hover {
+    background-color: #992d22;
+}

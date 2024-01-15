@@ -1,0 +1,31 @@
+body {
+  margin: 0;
+}
+
+.navbar {
+  background-color: #333;
+  padding: 15px;
+  text-align: center;
+  display: flex;
+  justify-content: space-around;
+}
+
+.navbar a {
+  color: white;
+  text-decoration: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  background-color: #c0392b;
+  font-size: 32px;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+  font-family: "Roboto Light", system-ui;
+}
+
+.navbar a:hover {
+  background-color: #992d22;
+}
+
+.App {
+  padding: 20px;
+}

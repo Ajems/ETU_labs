@@ -1,0 +1,44 @@
+.Tables {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.Tables h1 {
+    color: #333;
+    font-weight: bold;
+    font-family: "Roboto Light", system-ui;
+    font-size: 24px;
+}
+
+.Table {
+    margin-top: 20px;
+}
+
+.Table select {
+    padding: 10px;
+    font-size: 16px;
+}
+
+.Table h2 {
+    color: #333;
+    font-weight: bold;
+    font-family: "Roboto Light", system-ui;
+    font-size: 32px;
+}
+
+.Table table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+.Table th,
+.Table td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: left;
+}
+
+.Table th {
+    background-color: #f2f2f2;
+}

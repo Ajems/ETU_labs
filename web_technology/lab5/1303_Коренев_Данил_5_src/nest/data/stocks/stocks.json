@@ -1,0 +1,50 @@
+[
+  {
+    "id": 0,
+    "name": "AAPL",
+    "quantity": 10,
+    "prices": "aapl.csv"
+  },
+  {
+    "id": 1,
+    "name": "AMD",
+    "quantity": 10,
+    "prices": "amd.csv"
+  },
+  {
+    "id": 2,
+    "name": "AMZN",
+    "quantity": 10,
+    "prices": "amzn.csv"
+  },
+  {
+    "id": 3,
+    "name": "CSCO",
+    "quantity": 10,
+    "prices": "csco.csv"
+  },
+  {
+    "id": 4,
+    "name": "MSFT",
+    "quantity": 10,
+    "prices": "msft.csv"
+  },
+  {
+    "id": 5,
+    "name": "QCOM",
+    "quantity": 10,
+    "prices": "qcom.csv"
+  },
+  {
+    "id": 6,
+    "name": "SBUX",
+    "quantity": 10,
+    "prices": "sbux.csv"
+  },
+  {
+    "id": 7,
+    "name": "TSLA",
+    "quantity": 10,
+    "prices": "tsla.csv"
+  }
+]
