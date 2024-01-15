@@ -1,0 +1,16 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+.content {
+  flex: 1;
+  padding: 20px 20px 64px;
+}
+
+app-navigation {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  z-index: 1000;
+}
