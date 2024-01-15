@@ -1,0 +1,113 @@
+[
+  {
+    "id": 0,
+    "login": "admin",
+    "balance": 20853.8921,
+    "actives": {
+      "0": {
+        "id": 0,
+        "name": "AAPL",
+        "price": 132.52,
+        "quantity": 1
+      },
+      "1": {
+        "id": 1,
+        "name": "AMD",
+        "price": null,
+        "quantity": 2
+      },
+      "2": {
+        "id": 2,
+        "name": "AMZN",
+        "price": 161.69,
+        "quantity": 1
+      },
+      "3": {
+        "id": 3,
+        "name": "CSCO",
+        "price": 47.349,
+        "quantity": 3
+      },
+      "4": {
+        "id": 4,
+        "name": "MSFT",
+        "price": 176.3277777777778,
+        "quantity": -60
+      },
+      "5": {
+        "id": 5,
+        "name": "QCOM",
+        "price": 142.25,
+        "quantity": 2
+      },
+      "6": {
+        "id": 6,
+        "name": "SBUX",
+        "price": 106,
+        "quantity": 3
+      },
+      "7": {
+        "id": 7,
+        "name": "TSLA",
+        "price": 267.0866,
+        "quantity": 3
+      }
+    }
+  },
+  {
+    "id": 1,
+    "login": "dima",
+    "balance": 2.6300000000000026,
+    "actives": {
+      "3": {
+        "id": 3,
+        "name": "CSCO",
+        "price": 48.685,
+        "quantity": 2
+      }
+    }
+  },
+  {
+    "id": 2,
+    "login": "new",
+    "balance": 262.0630000000002,
+    "actives": {
+      "0": {
+        "id": 0,
+        "name": "AAPL",
+        "price": 122.82,
+        "quantity": 1
+      },
+      "2": {
+        "id": 2,
+        "name": "AMZN",
+        "price": 155.897,
+        "quantity": 1
+      },
+      "4": {
+        "id": 4,
+        "name": "MSFT",
+        "price": 242.76,
+        "quantity": 1
+      },
+      "5": {
+        "id": 5,
+        "name": "QCOM",
+        "price": 132.54,
+        "quantity": 1
+      },
+      "6": {
+        "id": 6,
+        "name": "SBUX",
+        "price": 111.38,
+        "quantity": 1
+      },
+      "7": {
+        "id": 7,
+        "name": "TSLA",
+        "price": 215.54,
+        "quantity": 1
+      }
+    }
+  }
+]

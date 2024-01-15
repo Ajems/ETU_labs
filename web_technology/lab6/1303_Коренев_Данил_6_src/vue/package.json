@@ -1,0 +1,25 @@
+{
+  "name": "stocks-vue",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "chart.js": "^4.4.1",
+    "selenium-webdriver": "^4.16.0",
+    "socket.io-client": "^4.7.2",
+    "vue": "^3.3.10",
+    "vue-chartjs": "^5.2.0",
+    "vue-router": "^4.2.5",
+    "vuetify": "^3.4.6",
+    "vuex": "^4.1.0"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^4.4.0",
+    "vite": "^4.4.11"
+  }
+}
