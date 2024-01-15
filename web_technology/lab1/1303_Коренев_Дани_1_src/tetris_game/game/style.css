@@ -1,0 +1,110 @@
+html, body {
+    height: 100%;
+    margin: 0;
+    overflow: hidden;
+}
+body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-image: url('background.jpg');
+    background-size: cover;
+    background-position: center;
+}
+
+#game_name {
+    font-family: game_font, serif;
+}
+
+#game {
+    border: 4px solid black;
+    background: Rgba(77, 23, 47, 0.8);
+}
+
+.info {
+    font-size: 24px;
+    font-weight: bold;
+    font-family: "game_font", serif;
+}
+
+.column {
+    flex: 0;
+    background: Rgba(255, 192, 203, 0.35);
+    border: none;
+    border-radius: 10px;
+    padding: 20px;
+    backdrop-filter: blur(5px);
+    font-family: game_font, serif;
+}
+
+.column:nth-child(1) {
+    min-width: auto;
+    padding-left: 30px;
+}
+.column:nth-child(3) {
+    min-width: auto;
+}
+
+.canvasNextFigureContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.canvasNextFigure {
+    width: fit-content
+}
+
+.container {
+    display: flex;
+    justify-content: center;
+    padding: 10px;
+    gap: 10px;
+}
+
+.buttonContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.buttonControl {
+    color: black;
+    margin: 20px;
+    padding: 10px;
+    background-color: Rgba(255, 0, 64, 0.8);
+    font-size: 24px;
+    cursor: pointer;
+    border: 4px solid Rgba(0, 0, 0);
+    font-family: game_font, serif;
+    width: fit-content
+}
+
+.gameOverOverlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 10px;
+    backdrop-filter: blur(4px);
+    background-color: rgba(0, 0, 0, 0.5);
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.gameOverText {
+    font-size: 36px;
+    color: white;
+    font-family: game_font, serif;
+}
+
+@font-face {
+    font-family: 'game_font';
+    src: url('press-start-2p-regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}

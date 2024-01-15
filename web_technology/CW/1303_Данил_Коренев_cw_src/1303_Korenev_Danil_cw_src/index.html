@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html class="no-js" lang="">
+
+<head>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <script type="module" defer src="./js/main.js"></script>
+
+    <div id="backgroundContainer"></div>
+
+    <div class="container">
+
+        <div class="column" id="leaderboardContainer">
+            <h2 id="leaderboardName">Leaderboard</h2>
+            <ol id="leaderboard"></ol>
+        </div>
+
+        <div class="column">
+            <div class="column" id="canvasContainer">
+                <canvas id="canvasId" width="480" height="480"></canvas>
+            </div>
+        </div>
+
+        <div class="column" id="gameData">
+            <div class="gameData">
+                <div id="health" class="info">Health: 0</div>
+                <div id="money" class="info">Money: 0</div>
+                <div id="username" class="info">Name: Player 1</div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <div id="dialogInputName" class="dialog">
+        <div class="dialog-content">
+            <span class="close" id="closeButton">&times;</span>
+            <label for="usernameInput">Enter your name:</label>
+            <input type="text" id="usernameInput" placeholder="Your Name">
+            <button id="submitButton">Submit</button>
+        </div>
+    </div>
+
+    <div id="gameOverDialog" class="dialog">
+        <div class="dialog-content">
+            <h2>You Lose</h2>
+            <button id="restartLevel">Restart Level</button>
+        </div>
+    </div>
+
+    <div id="gameReplayDialog" class="dialog">
+        <div class="dialog-content">
+            <h2>Game is completed!</h2>
+            <button id="replayGame">Restart Game</button>
+        </div>
+    </div>
+
+    <script>
+        let canvas = document.getElementById("canvasId")
+        let ctx = canvas.getContext("2d")
+        let context = new AudioContext()
+    </script>
+</body>
+</html>

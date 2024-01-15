@@ -1,0 +1,48 @@
+body {
+    font-family: game_font, serif;
+    background-image: url('background.jpg');
+    background-size: cover;
+    backdrop-filter: blur(5px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    overflow: hidden;
+    margin: 0;
+}
+
+.login-container {
+    background: Rgba(77, 23, 47, 0.8);
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0px 0px 20px black;
+    text-align: center;
+}
+
+label {
+    display: block;
+    margin: 20px;
+}
+
+input {
+    margin-top: 10px;
+    padding: 5px;
+    font-family: game_font, serif;
+}
+
+input[type="submit"] {
+    background-color: Rgba(255, 192, 203, 0.8);
+    color: black;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-family: game_font, serif;
+}
+
+@font-face {
+    font-family: 'game_font';
+    src: url('press-start-2p-regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}

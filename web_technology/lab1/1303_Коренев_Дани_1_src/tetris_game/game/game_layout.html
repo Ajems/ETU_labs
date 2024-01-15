@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Tetris game</title>
+    <link rel="stylesheet" href="style.css">
+    <script type="module" src="presentation/game.js"></script>
+</head>
+<body>
+    <div class="container">
+        <div class="column">
+            <h2>Leaderboard</h2>
+            <ol id="leaderboard" style="text-align: left;"></ol>
+        </div>
+        <div class="column">
+            <canvas width="320" height="640" id="game"></canvas>
+            <div id="gameOverOverlay" class="gameOverOverlay">
+                <div class="gameOverText">GAME<br>OVER</div>
+            </div>
+        </div>
+        <div class="column">
+            <div class="canvasNextFigureContainer">
+                <canvas class="canvasNextFigure" width="128" height="128" id="next_figure" style="width: fit-content"></canvas>
+            </div>
+            <div id="score" class="info">Score: 0</div>
+            <div id="level" class="info">Level: 1</div>
+            <div id="current_player" class="info">Name: Player 1</div>
+            <div class="buttonContainer">
+                <button class="buttonControl" id="button_restart" style="width: fit-content">Restart</button>
+                <button class="buttonControl" id="button_main_menu"  style="width: fit-content">Main menu</button>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
